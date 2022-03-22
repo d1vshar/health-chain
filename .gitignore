@@ -107,3 +107,4 @@ dist
 build/
 cache/
 artifacts/
+coverage.json

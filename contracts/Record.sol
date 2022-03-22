@@ -4,9 +4,12 @@ pragma solidity >=0.8.4 <0.9.0;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./RoleAccess.sol";
 
-contract EhrRecord is AccessControl, RoleAccess {
+// Individual Data storage contract for each record
+contract Record is AccessControl, RoleAccess {
+  address private owner;
   address private patientUuid;
   address private doctorUuid;
+  uint256 private createTime;
 
   struct RecordData {
     uint8 temp;
@@ -16,11 +19,15 @@ contract EhrRecord is AccessControl, RoleAccess {
     uint8 bpDiastolic;
   }
 
+  // TODO this isn't private. 
+  // no data on smart contracts is private regardless of modifiers.
   RecordData private recordData;
 
-  constructor(address _patientUuid, address _doctorUuid) {
+  constructor(address _patientUuid, address _doctorUuid, uint256 _createTime) {
     patientUuid = _patientUuid;
     doctorUuid = _doctorUuid;
+    createTime = _createTime;
+    owner = msg.sender;
 
     _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
     grantRole(PATIENT_ROLE, patientUuid);
@@ -66,5 +73,10 @@ contract EhrRecord is AccessControl, RoleAccess {
 
   function updateData(RecordData memory _recordData) public allAccess {
     recordData = _recordData;
+  }
+
+  function deleteSelf() public allAccess {
+    address payable ownerPayable = payable(owner);
+    selfdestruct(ownerPayable);
   }
 }
