@@ -2,8 +2,14 @@ import React from 'react';
 import {
   Avatar, Box, Link, Typography,
 } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import type { NavRoute } from '../../App';
 
-function NavBar() {
+type NavBarProps = {
+  routes: NavRoute[]
+};
+
+function NavBar({ routes }: NavBarProps) {
   return (
     <Box
       width="100%"
@@ -19,30 +25,22 @@ function NavBar() {
         display="flex"
         flexDirection="row"
       >
-        <Link
-          href="/"
-          marginRight="32px"
-          underline="always"
-          sx={{
-            fontSize: '14px',
-            textDecorationThickness: '2px',
-            textUnderlineOffset: '8px',
-          }}
-        >
-          Dashboard
-        </Link>
-        <Link
-          href="/"
-          marginRight="32px"
-          underline="always"
-          sx={{
-            fontSize: '14px',
-            textDecorationThickness: '2px',
-            textUnderlineOffset: '8px',
-          }}
-        >
-          Records
-        </Link>
+        {routes.map((route) => (
+          <Link
+            component={RouterLink}
+            to={route.href}
+            href={route.href}
+            marginRight="32px"
+            underline="always"
+            sx={{
+              fontSize: '14px',
+              textDecorationThickness: '2px',
+              textUnderlineOffset: '8px',
+            }}
+          >
+            {route.label}
+          </Link>
+        ))}
       </Box>
       <Box
         display="flex"

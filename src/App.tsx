@@ -6,7 +6,13 @@ import DashboardPage from './pages/DashboardPage';
 import PatientsPage from './pages/PatientsPage';
 import theme from './theme';
 
-const routes = [
+export type NavRoute = {
+  href: string
+  label: string
+  component: () => React.ReactElement
+};
+
+const routes: NavRoute[] = [
   {
     href: '/',
     label: 'Dashboard',
@@ -24,10 +30,10 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="xl">
-        <NavBar />
+        <NavBar routes={routes} />
         <Routes>
           {routes.map(({ href, component }) => (
-            <Route exact path={href} element={React.createElement(component)} />
+            <Route path={href} element={React.createElement(component)} />
           ))}
         </Routes>
       </Container>

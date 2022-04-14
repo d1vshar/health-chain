@@ -1,11 +1,11 @@
-import { createTheme } from '@mui/material';
+import { createTheme, Theme } from '@mui/material';
 
 const primaryBlack = '#1e2020';
 const primaryBorder = '#d8d8d9';
 const shadow = '0px 8px 16px 8px rgba(224,224,224,1)';
 // const focusShadow = '0px 8px 8px 16px rgba(224,224,224,1)';
 
-const theme = createTheme({
+const theme: Theme = createTheme({
   typography: {
     fontFamily: [
       'Ubuntu',
