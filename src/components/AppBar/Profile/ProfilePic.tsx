@@ -11,10 +11,10 @@ function ProfilePic({ alt, imageUrl }: ProfilePicProps) {
     <Avatar
       alt={alt}
       src={imageUrl}
+      variant="square"
       sx={{
         width: '48px',
         height: '48px',
-        borderRadius: '0px',
       }}
     />
   );

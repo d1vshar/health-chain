@@ -8,13 +8,13 @@ import ProfileRole from './ProfileRole';
 
 interface ProfileBoxProps {
   name: string,
-  // role: string
+  userRole: string
   address: string
   pic: string,
 }
 
 function ProfileBox({
-  name, address, pic,
+  name, userRole, address, pic,
 }: ProfileBoxProps) {
   return (
     <Tooltip
@@ -45,7 +45,7 @@ function ProfileBox({
             name={name}
           />
           <ProfileRole
-            userRole="Admin"
+            userRole={userRole}
           />
         </Box>
       </Box>

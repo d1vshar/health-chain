@@ -13,6 +13,7 @@ function ProfileRole({ userRole }: ProfileRoleProps) {
         marginX: '16px',
         fontSize: '10px',
         fontWeight: '400',
+        textTransform: 'uppercase',
       }}
     >
       {userRole}

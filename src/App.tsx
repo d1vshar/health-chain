@@ -6,6 +6,8 @@ import NavBar from './components/AppBar/Navigation/NavBar';
 import ProfileBox from './components/AppBar/Profile/ProfileBox';
 import DashboardPage from './pages/DashboardPage';
 import PatientsPage from './pages/PatientsPage';
+import DoctorsPage from './pages/DoctorsPage';
+import AuditPage from './pages/AuditPage';
 import theme from './theme';
 
 export interface NavRoute {
@@ -28,13 +30,13 @@ const routes: NavRoute[] = [
   {
     href: '/doctors',
     label: 'Doctors',
-    component: PatientsPage,
+    component: DoctorsPage,
   },
 
   {
     href: '/audit',
     label: 'Audit',
-    component: PatientsPage,
+    component: AuditPage,
   },
 ];
 
@@ -52,9 +54,10 @@ function App() {
             routes={routes}
           />
           <ProfileBox
-            name="Divyanshu"
+            name="AIIMS Delhi"
+            userRole="Hospital"
             address="1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8"
-            pic="https://avatars.githubusercontent.com/u/32746859?v=4"
+            pic="https://upload.wikimedia.org/wikipedia/en/8/85/All_India_Institute_of_Medical_Sciences%2C_Delhi.svg"
           />
         </AppBar>
         <Routes>
