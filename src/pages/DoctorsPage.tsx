@@ -4,27 +4,29 @@ import {
 } from '@mui/material';
 import { PlusIcon } from '@heroicons/react/solid';
 import { useNavigate } from 'react-router-dom';
+import chance from 'chance';
 import PageHeader from '../components/Page/PageHeader';
 import PageTitle from '../components/Page/PageTitle';
 import type { DoctorData } from '../types';
 import DoctorsTable from '../components/Doctors/DoctorsTable';
+import PageContent from '../components/Page/PageContent';
 
-function createData(
-  address: string,
-  uuid: string,
-  name: string,
-  speciality: string,
-): DoctorData {
-  const lastActivity = new Date();
-  return {
-    address, uuid, name, speciality, lastActivity,
-  };
-}
+const generateMockData = (amount: number): DoctorData[] => {
+  const data: DoctorData[] = [];
+  for (let i = 0; i < amount; i += 1) {
+    data.push({
+      address: chance().guid(),
+      uuid: chance().guid(),
+      name: chance().name(),
+      speciality: chance().word(),
+      lastActivity: chance().date(),
+    });
+  }
 
-const rows: DoctorData[] = [
-  createData('23132131321312323123', '23135324', 'Divyanshu Sharma', 'General Physician'),
-  createData('23132131321312323232', '5435435435', 'Somil Gupta', 'Orthopedic'),
-];
+  return data;
+};
+
+const rows: DoctorData[] = generateMockData(100);
 
 function DoctorsPage() {
   const navigate = useNavigate();
@@ -34,10 +36,12 @@ function DoctorsPage() {
   };
 
   return (
-    <>
+    <PageContent>
       <PageHeader>
         <PageTitle>
-          Doctors
+          Doctors -
+          {' '}
+          {rows.length}
         </PageTitle>
         <Button
           startIcon={<PlusIcon height="16px" width="16px" />}
@@ -54,7 +58,7 @@ function DoctorsPage() {
           onShowClick={onShowClick}
         />
       </TableContainer>
-    </>
+    </PageContent>
   );
 }
 

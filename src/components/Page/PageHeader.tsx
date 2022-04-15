@@ -13,7 +13,7 @@ function PageHeader({ children }: PageHeaderProps) {
       flexDirection="row"
       justifyContent="space-between"
       alignItems="center"
-      marginY="16px"
+      marginBottom="16px"
     >
       {children}
     </Box>

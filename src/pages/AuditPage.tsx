@@ -2,150 +2,34 @@ import React from 'react';
 import {
   Paper, TableContainer,
 } from '@mui/material';
+import chance from 'chance';
 import PageHeader from '../components/Page/PageHeader';
 import PageTitle from '../components/Page/PageTitle';
 import type { AuditEvent } from '../types';
 import AuditTable from '../components/Audit/AuditTable';
+import PageContent from '../components/Page/PageContent';
 
-function createData(
-  eventAddress: string,
-  timestamp: Date,
-  eventType: string,
-  status: string,
-  accountAddress: string,
-  ip: string,
-): AuditEvent {
-  return {
-    eventAddress, timestamp, eventType, status, accountAddress, ip,
-  };
-}
+const generateMockData = (amount: number): AuditEvent[] => {
+  const data: AuditEvent[] = [];
+  for (let i = 0; i < amount; i += 1) {
+    data.push({
+      eventAddress: chance().guid(),
+      timestamp: chance().date(),
+      eventType: chance().pickone(['LOGIN', 'DATA_READ', 'DATA_WRITE']),
+      status: chance().pickone(['FAIL', 'SUCCESS']),
+      accountAddress: chance().guid(),
+      ip: chance().ip(),
+    });
+  }
 
-const rows: AuditEvent[] = [
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'LOGIN',
-    'FAIL',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'DATA_ACCESS',
-    'SUCCESS',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'LOGIN',
-    'SUCCESS',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'LOGIN',
-    'FAIL',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'DATA_ACCESS',
-    'SUCCESS',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'LOGIN',
-    'SUCCESS',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'LOGIN',
-    'FAIL',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'DATA_ACCESS',
-    'SUCCESS',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'LOGIN',
-    'SUCCESS',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'LOGIN',
-    'FAIL',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'DATA_ACCESS',
-    'SUCCESS',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'LOGIN',
-    'SUCCESS',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'LOGIN',
-    'FAIL',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'DATA_ACCESS',
-    'SUCCESS',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-  createData(
-    'f2208c967df089f60420785795c0a9ba8896b0f6f1867fa7f1f12ad6f79c1a18',
-    new Date(),
-    'LOGIN',
-    'SUCCESS',
-    '1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8',
-    '219.231.321.321',
-  ),
-];
+  return data;
+};
+
+const rows: AuditEvent[] = generateMockData(100);
 
 function AuditPage() {
   return (
-    <>
+    <PageContent>
       <PageHeader>
         <PageTitle>
           Global Audit Log
@@ -154,7 +38,7 @@ function AuditPage() {
       <TableContainer component={Paper}>
         <AuditTable events={rows} />
       </TableContainer>
-    </>
+    </PageContent>
   );
 }
 

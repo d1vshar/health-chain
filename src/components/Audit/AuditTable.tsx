@@ -39,7 +39,7 @@ function AuditTable({ events }: AuditTableProps) {
             key={event.eventAddress}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
-            <TableCell>
+            <TableCell align="center">
               <Tooltip title={event.eventAddress}>
                 <FingerPrintIcon
                   height="24x"

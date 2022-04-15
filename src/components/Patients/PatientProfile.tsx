@@ -3,10 +3,7 @@ import {
   Box, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography,
 } from '@mui/material';
 
-// interface DoctorProfileProps {
-// }
-
-function DoctorProfile() {
+function PatientProfile() {
   return (
     <Box
       display="flex"
@@ -203,4 +200,4 @@ function DoctorProfile() {
   );
 }
 
-export default DoctorProfile;
+export default PatientProfile;

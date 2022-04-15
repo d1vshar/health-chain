@@ -10,6 +10,7 @@ import DoctorsPage from './pages/DoctorsPage';
 import AuditPage from './pages/AuditPage';
 import theme from './theme';
 import DoctorProfilePage from './pages/DoctorProfilePage';
+import PatientProfilePage from './pages/PatientProfilePage';
 
 export interface NavRoute {
   href: string,
@@ -33,22 +34,28 @@ const routes: NavRoute[] = [
     component: PatientsPage,
   },
   {
+    href: 'patient/:id',
+    label: 'Patients',
+    navBar: false,
+    component: PatientProfilePage,
+  },
+  {
     href: 'doctors',
     label: 'Doctors',
     navBar: true,
     component: DoctorsPage,
   },
   {
-    href: 'audit',
-    label: 'Audit',
-    navBar: true,
-    component: AuditPage,
-  },
-  {
     href: 'doctor/:id',
     label: 'Doctor Page',
     navBar: false,
     component: DoctorProfilePage,
+  },
+  {
+    href: 'audit',
+    label: 'Audit',
+    navBar: true,
+    component: AuditPage,
   },
 ];
 

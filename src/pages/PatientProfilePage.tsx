@@ -1,39 +1,30 @@
 import { Box } from '@mui/material';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import DoctorProfile from '../components/Doctors/DoctorProfile';
+import chance from 'chance';
 import PageContent from '../components/Page/PageContent';
 import PageHeader from '../components/Page/PageHeader';
 import PageTitle from '../components/Page/PageTitle';
-import type { DoctorData } from '../types';
-
-function createData(
-  address: string,
-  uuid: string,
-  name: string,
-  speciality: string,
-): DoctorData {
-  const lastActivity = new Date();
-  return {
-    address, uuid, name, speciality, lastActivity,
-  };
-}
+import type { PatientsData } from '../types';
+import PatientProfile from '../components/Patients/PatientProfile';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const profile: DoctorData = createData(
-  '23132131321312323123',
-  '21323213123123123',
-  'Divyanshu Sharma',
-  'General Physician',
-);
+const profile: PatientsData = {
+  address: chance().guid(),
+  uuid: chance().guid(),
+  name: chance().name(),
+  age: chance().age(),
+  gender: chance().gender(),
+  lastActivity: chance().date(),
+};
 
-function DoctorProfilePage() {
+function PatientProfilePage() {
   const params = useParams();
   return (
     <PageContent>
       <PageHeader>
         <PageTitle>
-          Doctor Profile -
+          Patient Profile -
           {' '}
           {params.id}
         </PageTitle>
@@ -43,10 +34,10 @@ function DoctorProfilePage() {
         flexDirection="row"
         width="100%"
       >
-        <DoctorProfile />
+        <PatientProfile />
       </Box>
     </PageContent>
   );
 }
 
-export default DoctorProfilePage;
+export default PatientProfilePage;
