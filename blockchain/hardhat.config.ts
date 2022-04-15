@@ -1,9 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { task, HardhatUserConfig } from "hardhat/config";
-import "@nomiclabs/hardhat-etherscan";
-import "@nomiclabs/hardhat-waffle";
-import "hardhat-gas-reporter";
-import "solidity-coverage";
+import { task, HardhatUserConfig } from 'hardhat/config';
+import '@nomiclabs/hardhat-etherscan';
+import '@nomiclabs/hardhat-waffle';
+import 'hardhat-gas-reporter';
+import 'solidity-coverage';
+
 require('dotenv').config();
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -27,7 +28,7 @@ const config: HardhatUserConfig = {
   gasReporter: {
     enabled: true,
     currency: 'USD',
-  }
-}
+  },
+};
 
 export default config;
