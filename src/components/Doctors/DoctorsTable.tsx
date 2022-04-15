@@ -7,9 +7,10 @@ import { DoctorData } from '../../types';
 
 interface DoctorsTableProps {
   doctors: DoctorData[]
+  onShowClick: (uuid: string) => void
 }
 
-function DoctorsTable({ doctors }: DoctorsTableProps) {
+function DoctorsTable({ doctors, onShowClick }: DoctorsTableProps) {
   return (
     <Table aria-label="a dense table">
       <TableHead>
@@ -52,7 +53,11 @@ function DoctorsTable({ doctors }: DoctorsTableProps) {
               {doctor.lastActivity.toISOString()}
             </TableCell>
             <TableCell>
-              <Button>Show Details</Button>
+              <Button
+                onClick={() => onShowClick(doctor.uuid)}
+              >
+                Show Details
+              </Button>
             </TableCell>
             <TableCell>
               <Button

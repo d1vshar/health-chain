@@ -1,5 +1,6 @@
 export interface DoctorData {
   address: string
+  uuid: string
   name: string
   speciality: string
   lastActivity: Date

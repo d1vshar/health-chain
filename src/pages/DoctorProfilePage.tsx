@@ -8,18 +8,20 @@ import type { DoctorData } from '../types';
 
 function createData(
   address: string,
+  uuid: string,
   name: string,
   speciality: string,
 ): DoctorData {
   const lastActivity = new Date();
   return {
-    address, name, speciality, lastActivity,
+    address, uuid, name, speciality, lastActivity,
   };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const profile: DoctorData = createData(
   '23132131321312323123',
+  '21323213123123123',
   'Divyanshu Sharma',
   'General Physician',
 );
