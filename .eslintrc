@@ -11,7 +11,7 @@
   },
   "overrides": [
     {
-      "files": ["hardhat.config.js"],
+      "files": ["blockchain/hardhat.config.js"],
       "globals": { "task": true }
     }
   ],
