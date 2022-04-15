@@ -12,6 +12,11 @@ function ProfilePic({ alt, imageUrl }: ProfilePicProps) {
       alt={alt}
       src={imageUrl}
       variant="square"
+      imgProps={{
+        sx: {
+          objectFit: 'contain',
+        },
+      }}
       sx={{
         width: '48px',
         height: '48px',

@@ -1,73 +1,51 @@
 import React from 'react';
 import {
-  Box, Paper, Table, TableCell, TableContainer, TableHead, TableRow, Typography,
+  Button, Paper, TableContainer,
 } from '@mui/material';
-import TruncateTooltip from '../components/common/Truncate';
-import ExpandableTableRow from '../components/common/ExpandableTable/ExpandableTableRow';
-import ExpandableTableBody from '../components/common/ExpandableTable/ExpandableTableBody';
-import DoctorProfile from '../components/Doctors/DoctorProfile';
-
-interface DoctorData {
-  address: string
-  name: string,
-}
+import { PlusIcon } from '@heroicons/react/solid';
+import PageHeader from '../components/Page/PageHeader';
+import PageTitle from '../components/Page/PageTitle';
+import type { DoctorData } from '../types';
+import DoctorsTable from '../components/Doctors/DoctorsTable';
 
 function createData(
   address: string,
   name: string,
+  speciality: string,
 ): DoctorData {
+  const lastActivity = new Date();
   return {
-    address, name,
+    address, name, speciality, lastActivity,
   };
 }
 
 const rows: DoctorData[] = [
-  createData('23132131321312323123', 'Divyanshu Sharma'),
-  createData('23132131321312323232', 'Somil Gupta'),
+  createData('23132131321312323123', 'Divyanshu Sharma', 'General Physician'),
+  createData('23132131321312323232', 'Somil Gupta', 'Orthopedic'),
 ];
 
 function DoctorsPage() {
   return (
-    <Box
-      marginY="32px"
-    >
-      <Typography
-        fontWeight="bold"
-        variant="h1"
-        fontSize="24px"
-        marginRight="32px"
-        marginBottom="24px"
+    <>
+      <PageHeader>
+        <PageTitle>
+          Doctors
+        </PageTitle>
+        <Button
+          startIcon={<PlusIcon height="16px" width="16px" />}
+          fullWidth={false}
+        >
+          Register New Doctor
+        </Button>
+      </PageHeader>
+      <TableContainer
+        component={Paper}
       >
-        Doctors
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Address</TableCell>
-              <TableCell>Name</TableCell>
-            </TableRow>
-          </TableHead>
-          <ExpandableTableBody>
-            {rows.map((row) => (
-              <ExpandableTableRow
-                key={row.address}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                expandedComponent={<DoctorProfile />}
-              >
-                <TableCell>
-                  <TruncateTooltip
-                    text={row.address}
-                    limit={12}
-                  />
-                </TableCell>
-                <TableCell>{row.name}</TableCell>
-              </ExpandableTableRow>
-            ))}
-          </ExpandableTableBody>
-        </Table>
+        <DoctorsTable
+          doctors={rows}
+        />
       </TableContainer>
-    </Box>
+    </>
   );
 }
 

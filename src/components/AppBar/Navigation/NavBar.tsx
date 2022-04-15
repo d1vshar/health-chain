@@ -24,7 +24,7 @@ function NavBar({ routes }: NavBarProps) {
       >
         health-chain
       </Typography>
-      {routes.map((route) => (
+      {routes.map((route) => route.navBar && (
         <NavLink route={route} />
       ))}
     </Box>
