@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Patient {
+  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name          String
+  dob           DateTime        @db.Timestamp(6)
+  dod           DateTime?       @db.Timestamp(6)
+  gender        String
+  phone         String?
+  email         String?
+  address       String?
+  bloodGroup    String?         @db.VarChar(2) @map("blood_group")
+  vitalRecords  VitalRecord[]
+
+  @@map("patients")
+}
+
+model Staff {
+  id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                 String
+  dob                  DateTime               @db.Timestamp(6)
+  dod                  DateTime?              @db.Timestamp(6)
+  gender               String?
+  phone                String?
+  email                String?
+  address              String?
+  staffQualifications  StaffQualification[]
+  staffRegistrations   StaffRegistration[]
+  vitalRecords         VitalRecord[]
+
+  @@map("staff")
+}
+
+model StaffQualification {
+  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  staff_id     String @db.Uuid
+  title        String @unique
+  year         Int
+  organization String
+  staff        Staff  @relation(fields: [staff_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("staff_qualifications")
+}
+
+model StaffRegistration {
+  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  staff_id     String @db.Uuid
+  reg_no       String @unique
+  year         Int
+  organization String
+  staff        Staff  @relation(fields: [staff_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("staff_registrations")
+}
+
+model VitalRecord {
+  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  patient_id  String      @db.Uuid
+  temperature Decimal?    @db.Decimal(10, 4)
+  heart_rate  Decimal?    @db.Decimal(10, 4)
+  resp_rate   Decimal?    @db.Decimal(10, 4)
+  o2sat       Decimal?    @db.Decimal(10, 4)
+  sbp         Int?
+  dpb         Int?
+  rhythm      String?
+  pain        String?
+  added_by    String?     @db.Uuid
+  staff       Staff?      @relation(fields: [added_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  patient     Patient     @relation(fields: [patient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("vital_records")
+}

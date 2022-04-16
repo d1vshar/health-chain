@@ -4,28 +4,33 @@ import HttpStatusCodes from 'http-status-codes';
 export abstract class CustomError extends Error {
   public readonly HttpStatus = HttpStatusCodes.BAD_REQUEST;
 
-  constructor(msg: string, httpStatus: number) {
+  constructor(name: string, msg: string, httpStatus: number) {
     super(msg);
+    this.name = name;
     this.HttpStatus = httpStatus;
   }
 }
 
-export class ParamMissingError extends CustomError {
-  public static readonly Msg = 'One or more of the required parameters was missing.';
+export class BadRequestError extends CustomError {
+  public static readonly Name = '/error/BadRequest';
+
+  public static readonly Msg = 'BadRequest';
 
   public static readonly HttpStatus = HttpStatusCodes.BAD_REQUEST;
 
   constructor() {
-    super(ParamMissingError.Msg, ParamMissingError.HttpStatus);
+    super(BadRequestError.Name, BadRequestError.Msg, BadRequestError.HttpStatus);
   }
 }
 
-export class UserNotFoundError extends CustomError {
-  public static readonly Msg = 'A user with the given id does not exists in the database.';
+export class InternalServerError extends CustomError {
+  public static readonly Name = '/error/InternalServerError';
 
-  public static readonly HttpStatus = HttpStatusCodes.NOT_FOUND;
+  public static readonly Msg = 'Internal Server Error';
+
+  public static readonly HttpStatus = HttpStatusCodes.INTERNAL_SERVER_ERROR;
 
   constructor() {
-    super(UserNotFoundError.Msg, UserNotFoundError.HttpStatus);
+    super(BadRequestError.Name, BadRequestError.Msg, BadRequestError.HttpStatus);
   }
 }
