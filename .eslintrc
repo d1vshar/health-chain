@@ -1,7 +1,6 @@
 {
   "env": {
     "browser": true,
-    "es2021": true,
     "mocha": true,
     "node": true
   },
@@ -16,6 +15,7 @@
     }
   ],
   "rules": {
-    "no-console": "off"
+    "no-console": "off",
+    "no-underscore-dangle": "off"
   }
 }
