@@ -22,7 +22,7 @@ model Patient {
   @@map("patients")
 }
 
-model Staff {
+model Doctor {
   id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                 String
   dob                  DateTime               @db.Timestamp(6)
@@ -31,33 +31,33 @@ model Staff {
   phone                String?
   email                String?
   address              String?
-  staffQualifications  StaffQualification[]
-  staffRegistrations   StaffRegistration[]
+  doctorQualifications DoctorQualification[]
+  doctorRegistrations  DoctorRegistration[]
   vitalRecords         VitalRecord[]
 
-  @@map("staff")
+  @@map("doctors")
 }
 
-model StaffQualification {
+model DoctorQualification {
   id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  staff_id     String @db.Uuid
-  title        String @unique
+  doctor_id    String @db.Uuid
+  title        String
   year         Int
   organization String
-  staff        Staff  @relation(fields: [staff_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  doctor       Doctor @relation(fields: [doctor_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@map("staff_qualifications")
+  @@map("doctor_qualifications")
 }
 
-model StaffRegistration {
+model DoctorRegistration {
   id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  staff_id     String @db.Uuid
+  doctor_id    String @db.Uuid
   reg_no       String @unique
   year         Int
   organization String
-  staff        Staff  @relation(fields: [staff_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  doctor       Doctor @relation(fields: [doctor_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@map("staff_registrations")
+  @@map("doctor_registrations")
 }
 
 model VitalRecord {
@@ -72,7 +72,7 @@ model VitalRecord {
   rhythm      String?
   pain        String?
   added_by    String?     @db.Uuid
-  staff       Staff?      @relation(fields: [added_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  doctor      Doctor?     @relation(fields: [added_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
   patient     Patient     @relation(fields: [patient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("vital_records")

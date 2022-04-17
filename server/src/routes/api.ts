@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import patientsRouter from './patients';
+import patientRouter from './patient';
+import doctorRouter from './doctor';
 
 const baseRouter = Router();
 
-baseRouter.use('/patient', patientsRouter);
+baseRouter.use('/patient', patientRouter);
+baseRouter.use('/doctor', doctorRouter);
 
 export default baseRouter;

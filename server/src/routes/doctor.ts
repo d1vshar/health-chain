@@ -1,10 +1,10 @@
-import { Patient, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import {
   NextFunction, Request, Response, Router,
 } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import ChainService from '../service/ChainService';
-import PatientService from '../service/PatientService';
+import { DoctorService } from '../services';
+import { GetAllDoctorsResult } from '../services/DoctorService';
 import { BadRequestError, InternalServerError } from '../shared/errors';
 import { ApiResponse } from '../types';
 
@@ -12,25 +12,42 @@ const router = Router();
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await ChainService.getSignerAddress();
-    let patientsData: Patient[];
+    let getAllDoctorsResult: GetAllDoctorsResult;
+    let response: ApiResponse;
+
     const { limit, page } = req.query;
 
     if (page !== undefined && limit !== undefined) {
-      patientsData = await PatientService.getAllPatients({
-        limit: parseInt(limit as string, 10),
-        page: parseInt(page as string, 10),
+      const limitNum: number = parseInt(limit as string, 10);
+      const pageNum: number = parseInt(page as string, 10);
+
+      getAllDoctorsResult = await DoctorService.getAllDoctors({
+        limit: limitNum,
+        page: pageNum,
       });
+      response = {
+        status: StatusCodes.OK,
+        data: {
+          doctors: getAllDoctorsResult.data,
+        },
+        _pagination: {
+          page: pageNum,
+          page_limit: limitNum,
+          count: getAllDoctorsResult.count,
+          page_count: Math.ceil(getAllDoctorsResult.count / limitNum),
+        },
+      };
     } else {
-      patientsData = await PatientService.getAllPatients();
+      getAllDoctorsResult = await DoctorService.getAllDoctors();
+
+      response = {
+        status: StatusCodes.OK,
+        data: {
+          doctors: getAllDoctorsResult.data,
+        },
+      };
     }
 
-    const response: ApiResponse = {
-      status: StatusCodes.OK,
-      data: {
-        patients: patientsData,
-      },
-    };
     res.status(StatusCodes.OK).json(response);
   } catch (e) {
     console.log(e);
@@ -46,14 +63,14 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params;
 
-    const patientData = await PatientService.getPatientById(id);
+    const getDoctorByIdResult = await DoctorService.getDoctorById(id);
 
     let status = StatusCodes.OK;
-    if (patientData === null) status = StatusCodes.NOT_FOUND;
+    if (getDoctorByIdResult.data === null) status = StatusCodes.NOT_FOUND;
     const response: ApiResponse = {
       status,
       data: {
-        patient: patientData,
+        doctor: getDoctorByIdResult.data,
       },
     };
     res.status(StatusCodes.OK).json(response);
