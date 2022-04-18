@@ -41,9 +41,11 @@ const generateDoctors = (amount: number): Prisma.DoctorUncheckedCreateInput[] =>
 
   for (let i = 0; i < amount; i += 1) {
     data.push({
-
       name: chance().name(),
-      dob: chance().date(),
+      dob: chance().date({
+        min: new Date('01 January 1940 00:00 UTC'),
+        max: new Date('31 December 1995 00:00 UTC'),
+      }),
       gender: chance().gender(),
       phone: chance().phone(),
       email: chance().email(),
@@ -93,7 +95,14 @@ const generatePaitents = (
   for (let i = 0; i < amount; i += 1) {
     data.push({
       name: chance().name(),
-      dob: chance().date(),
+      dob: chance().date({
+        min: new Date('01 January 1940 00:00 UTC'),
+        max: new Date('31 December 1995 00:00 UTC'),
+      }),
+      dod: chance().weighted([null, chance().date({
+        min: new Date('01 January 2000 00:00 UTC'),
+        max: new Date('31 December 2021 00:00 UTC'),
+      })], [25, 1]),
       gender: chance().gender(),
       phone: chance().phone(),
       email: chance().email(),
