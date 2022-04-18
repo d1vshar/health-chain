@@ -1,5 +1,6 @@
 import './config';
 import compression from 'compression';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 
@@ -13,6 +14,7 @@ import { ApiResponse } from './types';
 
 const app = express();
 
+app.use(cors());
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
