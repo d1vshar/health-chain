@@ -1,17 +1,15 @@
 import React from 'react';
 import {
-  Table, TableHead, TableRow, TableBody, TableCell, Button, Tooltip,
+  Table, TableHead, TableRow, TableBody, TableCell, Tooltip,
 } from '@mui/material';
 import { FingerPrintIcon } from '@heroicons/react/solid';
-import { PatientsData } from '../../types';
-import TruncateTooltip from '../common/TruncateTooltip';
+import { Patient } from '../../api';
 
 interface PatientsTableProps {
-  patients: PatientsData[]
-  onShowClick: (uuid: string) => void
+  patients: Patient[]
 }
 
-function PatientsTable({ patients, onShowClick }: PatientsTableProps) {
+function PatientsTable({ patients }: PatientsTableProps) {
   return (
     <Table aria-label="a dense table">
       <TableHead>
@@ -24,60 +22,45 @@ function PatientsTable({ patients, onShowClick }: PatientsTableProps) {
             Name
           </TableCell>
           <TableCell>
-            Age
+            Date of Birth
           </TableCell>
           <TableCell>
-            Gener
+            Date of Death
           </TableCell>
           <TableCell>
-            Last Activity
+            Gender
           </TableCell>
-          <TableCell />
-          <TableCell />
         </TableRow>
       </TableHead>
       <TableBody>
         {patients.map((patient) => (
           <TableRow
-            key={patient.address}
+            key={patient.id}
             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
           >
             <TableCell>
-              <Tooltip title={patient.address}>
+              <Tooltip title={patient.id ? patient.id : 'NA'}>
                 <FingerPrintIcon
-                  height="24x"
+                  height="24px"
                   width="24px"
                 />
               </Tooltip>
             </TableCell>
             <TableCell>
-              <TruncateTooltip text={patient.uuid} limit={10} />
+              {patient.id}
+              {/* <TruncateTooltip text={patient.id} limit={10} /> */}
             </TableCell>
             <TableCell>
               {patient.name}
             </TableCell>
             <TableCell>
-              {patient.age}
+              {new Date(patient.dob).toUTCString()}
+            </TableCell>
+            <TableCell>
+              {patient.dod ? new Date(patient.dod).toUTCString() : ''}
             </TableCell>
             <TableCell>
               {patient.gender}
-            </TableCell>
-            <TableCell>
-              {patient.lastActivity.toISOString()}
-            </TableCell>
-            <TableCell>
-              <Button
-                onClick={() => onShowClick(patient.uuid)}
-              >
-                Show Details
-              </Button>
-            </TableCell>
-            <TableCell>
-              <Button
-                color="error"
-              >
-                Delete
-              </Button>
             </TableCell>
           </TableRow>
         ))}

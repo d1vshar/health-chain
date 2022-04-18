@@ -24,10 +24,9 @@ function ProfileBox({
         display="flex"
         flexDirection="row"
         maxWidth="512px"
-        bgcolor="white"
         alignItems="center"
         sx={{
-          cursor: 'context-menu',
+          cursor: 'copy',
           userSelect: 'none',
         }}
       >

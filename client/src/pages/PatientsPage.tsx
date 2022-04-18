@@ -1,48 +1,39 @@
 import React from 'react';
 import {
-  Button, Paper, TableContainer,
+  Button, CircularProgress, Paper, TableContainer,
 } from '@mui/material';
 import { PlusIcon } from '@heroicons/react/solid';
-import { useNavigate } from 'react-router-dom';
-import chance from 'chance';
+import { useRecoilState } from 'recoil';
 import PageHeader from '../components/Page/PageHeader';
 import PageTitle from '../components/Page/PageTitle';
-import type { PatientsData } from '../types';
 import PageContent from '../components/Page/PageContent';
 import PatientsTable from '../components/Patients/PatientsTable';
-
-const generateMockData = (amount: number): PatientsData[] => {
-  const data: PatientsData[] = [];
-  for (let i = 0; i < amount; i += 1) {
-    data.push({
-      address: chance().guid(),
-      uuid: chance().guid(),
-      name: chance().name(),
-      age: chance().age(),
-      gender: chance().gender(),
-      lastActivity: chance().date(),
-    });
-  }
-
-  return data;
-};
-
-const rows: PatientsData[] = generateMockData(100);
+import patientListStateFamily from '../store/patientListStateFamily';
 
 function PatientsPage() {
-  const navigate = useNavigate();
-
-  const onShowClick = (uuid: string) => {
-    navigate(`/patient/${uuid}`);
-  };
+  const [patientListState] = useRecoilState(patientListStateFamily({ limit: 100, page: 5 }));
 
   return (
     <PageContent>
       <PageHeader>
         <PageTitle>
-          Patients -
-          {' '}
-          {rows.length}
+          Patients
+          {patientListState._pagination && (
+            <>
+              {' - '}
+              Showing
+              {' '}
+              {(patientListState._pagination.page - 1) * patientListState._pagination.page_limit
+              + 1}
+              {' - '}
+              {(patientListState._pagination.page - 1) * patientListState._pagination.page_limit
+              + patientListState._pagination.page_limit}
+              {' '}
+              of
+              {' '}
+              {patientListState._pagination?.count || 0}
+            </>
+          )}
         </PageTitle>
         <Button
           startIcon={<PlusIcon height="16px" width="16px" />}
@@ -51,14 +42,15 @@ function PatientsPage() {
           Register New Patient
         </Button>
       </PageHeader>
-      <TableContainer
-        component={Paper}
-      >
-        <PatientsTable
-          patients={rows}
-          onShowClick={onShowClick}
-        />
-      </TableContainer>
+      {patientListState.list !== undefined ? (
+        <TableContainer
+          component={Paper}
+        >
+          <PatientsTable
+            patients={patientListState.list || []}
+          />
+        </TableContainer>
+      ) : <CircularProgress />}
     </PageContent>
   );
 }

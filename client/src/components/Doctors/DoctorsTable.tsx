@@ -38,7 +38,7 @@ function DoctorsTable({ doctors, onShowClick }: DoctorsTableProps) {
             <TableCell>
               <Tooltip title={doctor.address}>
                 <FingerPrintIcon
-                  height="24x"
+                  height="24px"
                   width="24px"
                 />
               </Tooltip>

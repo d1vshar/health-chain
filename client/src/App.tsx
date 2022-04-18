@@ -82,11 +82,13 @@ function App() {
         <Routes>
           {routes.map(({ href, component, children }) => (
             <Route
+              key={href}
               path={href}
               element={React.createElement(component)}
             >
               {children ? children.map((childRoute) => (
                 <Route
+                  key={childRoute.href}
                   path={childRoute.href}
                   element={React.createElement(childRoute.component)}
                 />
