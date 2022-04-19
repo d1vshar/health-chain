@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 
-function useTablePaginator(max: number) {
+function useTablePaginator(
+  max: number,
+): [number, boolean, boolean, React.Dispatch<SetStateAction<number>>] {
   const [pageNum, setPageNum] = useState(1);
   const [hasNext, setHasNext] = useState<boolean>(() => {
     if (pageNum < max) return true;
@@ -10,18 +12,12 @@ function useTablePaginator(max: number) {
 
   useEffect(() => {
     if (pageNum < max) setHasNext(true);
+    else setHasNext(false);
     if (pageNum > 1) setHasPrev(true);
+    else setHasPrev(false);
   }, [pageNum, max]);
 
-  const next = () => {
-    if (hasNext) setPageNum(pageNum + 1);
-  };
-
-  const previous = () => {
-    if (hasPrev) setPageNum(pageNum - 1);
-  };
-
-  return [pageNum, hasNext, hasPrev, next, previous];
+  return [pageNum, hasNext, hasPrev, setPageNum];
 }
 
 export default useTablePaginator;

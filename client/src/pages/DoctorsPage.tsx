@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button, Paper, TableContainer,
 } from '@mui/material';
 import { PlusIcon } from '@heroicons/react/solid';
-import { useNavigate } from 'react-router-dom';
 import chance from 'chance';
+import { useRecoilState } from 'recoil';
 import PageHeader from '../components/Page/PageHeader';
 import PageTitle from '../components/Page/PageTitle';
 import type { DoctorData } from '../types';
 import DoctorsTable from '../components/Doctors/DoctorsTable';
 import PageContent from '../components/Page/PageContent';
+import doctorsListStateFamily from '../store/doctorListStateFamily';
 
 const generateMockData = (amount: number): DoctorData[] => {
   const data: DoctorData[] = [];
@@ -29,10 +30,15 @@ const generateMockData = (amount: number): DoctorData[] => {
 const rows: DoctorData[] = generateMockData(100);
 
 function DoctorsPage() {
-  const navigate = useNavigate();
+  const [page, setPage] = useState<number>(1);
+  const [doctorsListState] = useRecoilState(doctorsListStateFamily({ limit: 100, page }));
 
-  const onShowClick = (uuid: string) => {
-    navigate(`/doctor/${uuid}`);
+  const onPrevPage = () => {
+    setPage(page - 1);
+  };
+
+  const onNextPage = () => {
+    setPage(page + 1);
   };
 
   return (
@@ -54,8 +60,10 @@ function DoctorsPage() {
         component={Paper}
       >
         <DoctorsTable
-          doctors={rows}
-          onShowClick={onShowClick}
+          doctors={doctorsListState.list || []}
+          pagination={doctorsListState._pagination || null}
+          onPrevPage={onPrevPage}
+          onNextPage={onNextPage}
         />
       </TableContainer>
     </PageContent>

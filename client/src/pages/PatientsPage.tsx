@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button, CircularProgress, Paper, TableContainer,
 } from '@mui/material';
@@ -11,29 +11,22 @@ import PatientsTable from '../components/Patients/PatientsTable';
 import patientListStateFamily from '../store/patientListStateFamily';
 
 function PatientsPage() {
-  const [patientListState] = useRecoilState(patientListStateFamily({ limit: 100, page: 5 }));
+  const [page, setPage] = useState<number>(1);
+  const [patientListState] = useRecoilState(patientListStateFamily({ limit: 100, page }));
+
+  const onPrevPage = () => {
+    setPage(page - 1);
+  };
+
+  const onNextPage = () => {
+    setPage(page + 1);
+  };
 
   return (
     <PageContent>
       <PageHeader>
         <PageTitle>
           Patients
-          {patientListState._pagination && (
-            <>
-              {' - '}
-              Showing
-              {' '}
-              {(patientListState._pagination.page - 1) * patientListState._pagination.page_limit
-              + 1}
-              {' - '}
-              {(patientListState._pagination.page - 1) * patientListState._pagination.page_limit
-              + patientListState._pagination.page_limit}
-              {' '}
-              of
-              {' '}
-              {patientListState._pagination?.count || 0}
-            </>
-          )}
         </PageTitle>
         <Button
           startIcon={<PlusIcon height="16px" width="16px" />}
@@ -48,6 +41,9 @@ function PatientsPage() {
         >
           <PatientsTable
             patients={patientListState.list || []}
+            pagination={patientListState._pagination || null}
+            onPrevPage={onPrevPage}
+            onNextPage={onNextPage}
           />
         </TableContainer>
       ) : <CircularProgress />}
