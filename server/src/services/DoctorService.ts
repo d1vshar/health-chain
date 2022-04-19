@@ -1,4 +1,7 @@
 import { Doctor, PrismaClient } from '@prisma/client';
+import { DoctorInterface } from '../types';
+import { validateObject } from '../utils/hash';
+import ChainService from './ChainService';
 
 export interface GetAllDoctorsOptions {
   limit: number
@@ -7,11 +10,11 @@ export interface GetAllDoctorsOptions {
 
 export interface GetAllDoctorsResult {
   count: number
-  data: Doctor[]
+  data: DoctorInterface[]
 }
 
 export interface GetDoctorByIdResult {
-  data: Doctor | null
+  data: DoctorInterface | null
 }
 
 export default class DoctorService {
@@ -30,9 +33,23 @@ export default class DoctorService {
       queryResult = await this.prisma.doctor.findMany();
     }
 
+    const doctorsData = await Promise.all(queryResult.map<Promise<DoctorInterface>>(
+      async (doctor) => {
+        const storedHash = await ChainService.getDoctorHash(doctor.id);
+        const validationResult = validateObject(doctor, storedHash);
+        return {
+          ...doctor,
+          validation: {
+            hash: storedHash,
+            result: validationResult,
+          },
+        };
+      },
+    ));
+
     return {
       count,
-      data: queryResult,
+      data: doctorsData,
     };
   }
 
@@ -43,8 +60,23 @@ export default class DoctorService {
       },
     });
 
+    if (queryResult) {
+      const storedHash = await ChainService.getDoctorHash(queryResult.id);
+      const validationResult = validateObject(queryResult, storedHash);
+
+      return {
+        data: {
+          ...queryResult,
+          validation: {
+            hash: storedHash,
+            result: validationResult,
+          },
+        },
+      };
+    }
+
     return {
-      data: queryResult,
+      data: null,
     };
   }
 }

@@ -14,9 +14,24 @@ export default class ChainService {
     });
 
     console.log(tx);
+  }
 
-    // console.log('mnemonic:', wallet.mnemonic.phrase);
-    // console.log('privateKey:', wallet.privateKey);
-    // console.log(await this.provider.getBalance(await signer.getAddress()));
+  /**
+   * mock hash fetch functions
+   * #TODO replace with blockchain contract calls
+   */
+  public static async getPatientHash(id: string) {
+    console.log(`fetch patient hash ${id}`);
+    return 'a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e';
+  }
+
+  public static async getDoctorHash(id: string) {
+    console.log(`fetch doctor hash ${id}`);
+    return 'a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e';
+  }
+
+  public static async getRecordHash(id: string) {
+    console.log(`fetch record hash ${id}`);
+    return 'a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e';
   }
 }

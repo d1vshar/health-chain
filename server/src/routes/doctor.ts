@@ -25,6 +25,7 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
         limit: limitNum,
         page: pageNum,
       });
+
       response = {
         status: StatusCodes.OK,
         data: {
