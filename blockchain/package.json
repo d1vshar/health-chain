@@ -5,7 +5,8 @@
   "description": "Electronic Health Record system on blockchain",
   "license": "MIT License",
   "scripts": {
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "analyze": "rm -r artifacts cache && slither ."
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.5.0",

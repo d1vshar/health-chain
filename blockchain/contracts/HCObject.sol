@@ -1,36 +1,25 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.4 <0.9.0;
+pragma solidity >=0.8.4;
 
 import "./HCPermissionedContract.sol";
 
 abstract contract HCObject is HCPermissionedContract {
-    address private owner;
-    string private id;
-
-    modifier permission(
-        int256 _r,
-        int256 _w,
-        int256 _m
-    ) {
-        require(
-            isOwner(msg.sender) || validatePermission(msg.sender, _r, _w, _m),
-            "NOT AUTHORIZED"
-        );
-        _;
-    }
-
-    function isOwner(address account) private view returns (bool) {
-        return account == owner;
+    constructor(address _owner) {
+        permissionMap[_owner] = Permission(1, 1, 1);
     }
 
     struct ObjectData {
-        string id;
-        string hash;
+        string idStr;
+        string hashStr;
     }
 
-    ObjectData private objectData;
+    ObjectData internal objectData;
 
-    constructor(address _owner) {
-        owner = _owner;
+    function getData() external permission(1, 0, 0) view returns(ObjectData memory) {
+        return objectData;
+    }
+
+    function setData(ObjectData memory _objectData) external permission(1, 1, 0) {
+        objectData = _objectData;
     }
 }
