@@ -13,6 +13,7 @@ contract HealthChainStorage {
   }
 
   struct HealthRecordData {
+    string id;
     string hash;
   }
 

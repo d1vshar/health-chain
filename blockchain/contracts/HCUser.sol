@@ -6,8 +6,16 @@ import "./HCPermissionedContract.sol";
 abstract contract HCUser is HCPermissionedContract {
   address private owner;
   string public role = "USER";
+  string private id;
 
-  // TODO add modifier for authentication
+  modifier permission(int _r, int _w, int _m) {
+    require(isOwner(msg.sender) || validatePermission(msg.sender, _r, _w, _m), "NOT AUTHORIZED");
+    _;
+  }
+
+  function isOwner(address account) private view returns(bool) {
+    return account == owner;
+  }
 
   struct UserData {
     string id;
@@ -18,5 +26,6 @@ abstract contract HCUser is HCPermissionedContract {
 
   constructor(address _owner) {
     owner = _owner;
+    role = "USER";
   }
 }
