@@ -3,10 +3,10 @@ pragma solidity >=0.8.4 <0.9.0;
 
 import "./HCObject.sol";
 
-contract HCDoctorContract is HCObject {
-    string public role;
+abstract contract HCRecordContract is HCObject {
+    string public recordType;
 
     constructor(address _owner) HCObject(_owner) {
-        role = "DOCTOR";
+        recordType = "VITALS";
     }
 }
