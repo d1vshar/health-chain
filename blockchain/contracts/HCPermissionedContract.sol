@@ -1,31 +1,54 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.4 <0.9.0;
+pragma solidity >=0.8.4;
 
 abstract contract HCPermissionedContract {
-  struct Permission {
-    int r;
-    int w;
-    int m;
-  }
+    struct Permission {
+        int256 r;
+        int256 w;
+        int256 m;
+    }
 
-  mapping (address => Permission) private permissionMap;
+    mapping(address => Permission) internal permissionMap;
 
-  function setPermission(address account, Permission calldata _permission) public {
-    permissionMap[account] = _permission;
-  }
+    modifier permission(
+        int256 _r,
+        int256 _w,
+        int256 _m
+    ) {
+        require(validatePermission(msg.sender, _r, _w, _m), "Not authorized to call method");
+        _;
+    }
 
-  function getPermission(address account) public view returns(Permission memory) {
-    return permissionMap[account];
-  }
+    function setPermission(address account, Permission memory _permission)
+        external
+        permission(1, 1, 1)
+    {
+        permissionMap[account] = _permission;
+    }
 
-  function validatePermission(address account, int _r, int _w, int _m) internal view returns(bool) {
-    bool flag = true;
-  
-    Permission memory p = getPermission(account);
-    if (p.r != _r) flag = false;
-    else if (p.w != _w) flag = false;
-    else if (p.m != _m) flag = false;
-  
-    return flag;
-  }
+    function getPermission(address account)
+        external
+        view
+        permission(1, 0, 0)
+        returns (Permission memory)
+    {
+        return permissionMap[account];
+    }
+
+    function validatePermission(
+        address account,
+        int256 _r,
+        int256 _w,
+        int256 _m
+    ) internal view returns (bool) {
+        bool flag = true;
+
+        Permission memory p = permissionMap[account];
+
+        if (p.r < _r) flag = false;
+        else if (p.w < _w) flag = false;
+        else if (p.m < _m) flag = false;
+
+        return flag;
+    }
 }

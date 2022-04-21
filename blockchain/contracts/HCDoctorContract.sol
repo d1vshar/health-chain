@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.4 <0.9.0;
+pragma solidity >=0.8.4;
 
-import "./HCUser.sol";
+import "./HCObject.sol";
 
-contract HCDoctorContract is HCUser {
-  constructor(address _owner) HCUser(_owner) {
-    role = "DOCTOR";
-  }
+contract HCDoctorContract is HCObject {
+    string public role;
+
+    constructor(address _owner) HCObject(_owner) {
+        role = "DOCTOR";
+    }
 }
