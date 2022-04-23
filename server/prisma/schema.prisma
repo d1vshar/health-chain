@@ -77,3 +77,10 @@ model VitalRecord {
 
   @@map("vital_records")
 }
+
+model User {
+  nonce Int @unique
+  publicAddress String @unique 
+  username String @unique
+
+}
