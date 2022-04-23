@@ -1,0 +1,7 @@
+{
+  "workbench.colorTheme": "One Monokai",
+  "editor.formatOnSave": true,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
+}

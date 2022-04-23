@@ -7,26 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  PATIENT
+  DOCTOR
+}
+
 model Patient {
-  id            String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name          String
-  dob           DateTime        @db.Timestamp(6)
-  dod           DateTime?       @db.Timestamp(6)
-  gender        String
-  phone         String?
-  email         String?
-  address       String?
-  bloodGroup    String?         @db.VarChar(2) @map("blood_group")
-  vitalRecords  VitalRecord[]
+  id           String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String
+  dob          DateTime      @db.Timestamp(6)
+  dod          DateTime?     @db.Timestamp(6)
+  gender       String
+  phone        String?
+  email        String?
+  address      String?
+  bloodGroup   String?       @map("blood_group") @db.VarChar(2)
+  vitalRecords VitalRecord[]
 
   @@map("patients")
 }
 
 model Doctor {
-  id                   String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id                   String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                 String
-  dob                  DateTime               @db.Timestamp(6)
-  dod                  DateTime?              @db.Timestamp(6)
+  dob                  DateTime              @db.Timestamp(6)
+  dod                  DateTime?             @db.Timestamp(6)
   gender               String?
   phone                String?
   email                String?
@@ -61,26 +66,26 @@ model DoctorRegistration {
 }
 
 model VitalRecord {
-  id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  patient_id  String      @db.Uuid
-  temperature Decimal?    @db.Decimal(10, 4)
-  heart_rate  Decimal?    @db.Decimal(10, 4)
-  resp_rate   Decimal?    @db.Decimal(10, 4)
-  o2sat       Decimal?    @db.Decimal(10, 4)
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  patient_id  String   @db.Uuid
+  temperature Decimal? @db.Decimal(10, 4)
+  heart_rate  Decimal? @db.Decimal(10, 4)
+  resp_rate   Decimal? @db.Decimal(10, 4)
+  o2sat       Decimal? @db.Decimal(10, 4)
   sbp         Int?
   dpb         Int?
   rhythm      String?
   pain        String?
-  added_by    String?     @db.Uuid
-  doctor      Doctor?     @relation(fields: [added_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  patient     Patient     @relation(fields: [patient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  added_by    String?  @db.Uuid
+  doctor      Doctor?  @relation(fields: [added_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  patient     Patient  @relation(fields: [patient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("vital_records")
 }
 
 model User {
-  nonce Int @unique
-  publicAddress String @unique 
-  username String @unique
-
+  nonce         Int
+  publicAddress String @unique
+  username      String
+  role          Role   @default(PATIENT)
 }

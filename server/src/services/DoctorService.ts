@@ -1,26 +1,28 @@
-import { Doctor, PrismaClient } from '@prisma/client';
-import { DoctorInterface } from '../types';
-import { validateObject } from '../utils/hash';
-import ChainService from './ChainService';
+import { Doctor, PrismaClient } from "@prisma/client";
+import { DoctorInterface } from "../types";
+import { validateObject } from "../utils/hash";
+import ChainService from "./ChainService";
 
 export interface GetAllDoctorsOptions {
-  limit: number
-  page: number
+  limit: number;
+  page: number;
 }
 
 export interface GetAllDoctorsResult {
-  count: number
-  data: DoctorInterface[]
+  count: number;
+  data: DoctorInterface[];
 }
 
 export interface GetDoctorByIdResult {
-  data: DoctorInterface | null
+  data: DoctorInterface | null;
 }
 
 export default class DoctorService {
   public static readonly prisma: PrismaClient = new PrismaClient();
 
-  public static async getAllDoctors(args?: GetAllDoctorsOptions): Promise<GetAllDoctorsResult> {
+  public static async getAllDoctors(
+    args?: GetAllDoctorsOptions
+  ): Promise<GetAllDoctorsResult> {
     let queryResult: Doctor[];
 
     const count = await this.prisma.doctor.count();
@@ -33,8 +35,8 @@ export default class DoctorService {
       queryResult = await this.prisma.doctor.findMany();
     }
 
-    const doctorsData = await Promise.all(queryResult.map<Promise<DoctorInterface>>(
-      async (doctor) => {
+    const doctorsData = await Promise.all(
+      queryResult.map<Promise<DoctorInterface>>(async (doctor) => {
         const storedHash = await ChainService.getDoctorHash(doctor.id);
         const validationResult = validateObject(doctor, storedHash);
         return {
@@ -44,8 +46,8 @@ export default class DoctorService {
             result: validationResult,
           },
         };
-      },
-    ));
+      })
+    );
 
     return {
       count,
@@ -79,4 +81,41 @@ export default class DoctorService {
       data: null,
     };
   }
+
+  //   public static async getDoctorAuthByPublicAddress(
+  //     publicAddress: string
+  //   ): Promise<any> {
+  //     const queryResult = await this.prisma.doctor.findUnique({
+  //       where: {
+  //         publicAddress,
+  //       },
+  //     });
+
+  //     if (!queryResult) return { data: null };
+  //     return {
+  //       data: {
+  //         ...queryResult,
+  //       },
+  //     };
+  //   }
+
+  //   public static async setDoctorAuthByPublicAddress(
+  //     nonce: number,
+  //     publicAddress: string,
+  //     username: string
+  //   ): Promise<any> {
+  //     const queryResult = await this.prisma.user.create({
+  //       data: {
+  //         nonce,
+  //         publicAddress,
+  //         username,
+  //       },
+  //     });
+  //     if (!queryResult) return { data: null };
+  //     return {
+  //       data: {
+  //         ...queryResult,
+  //       },
+  //     };
+  //   }
 }

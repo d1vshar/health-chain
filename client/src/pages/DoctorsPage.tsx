@@ -10,7 +10,7 @@ import DoctorsTable from "../components/Doctors/DoctorsTable";
 import PageContent from "../components/Page/PageContent";
 import doctorsListStateFamily from "../store/doctorListStateFamily";
 import RegistrationForm from "../components/RegistrationForm/RegistrationForm";
-import { signIn, signUp } from "../api/User";
+import { connectDoctor, loginDoctor } from "../api/DoctorEndpoint";
 
 const generateMockData = (amount: number): DoctorData[] => {
   const data: DoctorData[] = [];
@@ -62,7 +62,9 @@ function DoctorsPage() {
           onNextPage={onNextPage}
         />
       </TableContainer>
-      <Button onClick={() => signUp()}>Test Button</Button>
+      <Button onClick={() => connectDoctor()}>Connect Doctor</Button>
+
+      <Button onClick={() => loginDoctor()}>Sign In</Button>
     </PageContent>
   );
 }

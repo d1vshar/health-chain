@@ -37,11 +37,12 @@ router.post(
   "/register",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { publicAddress, nonce, username } = req.body;
+      const { publicAddress, nonce, username, role } = req.body;
       const setUser = await LoginService.setUserByPublicAddress(
         nonce,
         publicAddress,
-        username
+        username,
+        role
       );
 
       let status = StatusCodes.OK;
@@ -49,7 +50,7 @@ router.post(
       const response: ApiResponse = {
         status,
         data: {
-          doctor: setUser.data,
+          user: setUser.data,
         },
       };
       res.status(StatusCodes.OK).json(response);
