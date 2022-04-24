@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import { Button, Paper, TableContainer } from "@mui/material";
-import { PlusIcon } from "@heroicons/react/solid";
-import chance from "chance";
-import { useRecoilState } from "recoil";
-import PageHeader from "../components/Page/PageHeader";
-import PageTitle from "../components/Page/PageTitle";
-import type { DoctorData } from "../types";
-import DoctorsTable from "../components/Doctors/DoctorsTable";
-import PageContent from "../components/Page/PageContent";
-import doctorsListStateFamily from "../store/doctorListStateFamily";
-import RegistrationForm from "../components/RegistrationForm/RegistrationForm";
-import { connectDoctor, loginDoctor } from "../api/DoctorEndpoint";
+import React, { useState } from 'react';
+import { Button, Paper, TableContainer } from '@mui/material';
+import { PlusIcon } from '@heroicons/react/solid';
+import chance from 'chance';
+import { useRecoilState } from 'recoil';
+import PageHeader from '../components/Page/PageHeader';
+import PageTitle from '../components/Page/PageTitle';
+import type { DoctorData } from '../types';
+import DoctorsTable from '../components/Doctors/DoctorsTable';
+import PageContent from '../components/Page/PageContent';
+import doctorsListStateFamily from '../store/doctorListStateFamily';
+import { connectDoctor, loginDoctor } from '../api/DoctorEndpoint';
 
 const generateMockData = (amount: number): DoctorData[] => {
   const data: DoctorData[] = [];
@@ -32,7 +31,7 @@ const rows: DoctorData[] = generateMockData(100);
 function DoctorsPage() {
   const [page, setPage] = useState<number>(1);
   const [doctorsListState] = useRecoilState(
-    doctorsListStateFamily({ limit: 100, page })
+    doctorsListStateFamily({ limit: 100, page }),
   );
 
   const onPrevPage = () => {
@@ -46,7 +45,10 @@ function DoctorsPage() {
   return (
     <PageContent>
       <PageHeader>
-        <PageTitle>Doctors - {rows.length}</PageTitle>
+        <PageTitle>
+          Doctors -
+          {rows.length}
+        </PageTitle>
         <Button
           startIcon={<PlusIcon height="16px" width="16px" />}
           fullWidth={false}

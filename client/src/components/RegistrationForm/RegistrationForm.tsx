@@ -1,22 +1,18 @@
-import React from "react";
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
 import {
   FormControl,
-  InputLabel,
-  Input,
-  FormHelperText,
   Box,
   Typography,
   TextField,
   Grid,
-  Select,
-  Stack,
   Button,
-} from "@mui/material";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import styles from "../../assets/jss/formStyles";
+} from '@mui/material';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import styles from '../../assets/jss/formStyles';
 
 type IRegistrationFormValues = {
   name: string;
@@ -29,17 +25,16 @@ type IRegistrationFormValues = {
   bloodGroup: string | null;
 };
 
-const RegistrationForm: React.FC = () => {
+function RegistrationForm() {
   const { register, handleSubmit } = useForm<IRegistrationFormValues>();
 
   const [valueOfDOB, setValueOfDOB] = React.useState<Date | null>(null);
   const [valueOfDOD, setValueOfDOD] = React.useState<Date | null>(null);
-  const onSubmit: SubmitHandler<IRegistrationFormValues> = (data) =>
-    console.log(data);
+  const onSubmit: SubmitHandler<IRegistrationFormValues> = (data) => console.log(data);
 
   return (
     <Box my={3}>
-      <div style={{ margin: "0px 0px 22px" }}>
+      <div style={{ margin: '0px 0px 22px' }}>
         <Typography variant="h4" sx={styles.welcomeBackText}>
           Registration Form
         </Typography>
@@ -61,7 +56,7 @@ const RegistrationForm: React.FC = () => {
                 placeholder="Enter name"
                 variant="outlined"
                 size="small"
-                {...register("name")}
+                {...register('name')}
                 InputLabelProps={{
                   sx: {
                     root: styles.heading,
@@ -84,7 +79,7 @@ const RegistrationForm: React.FC = () => {
                     setValueOfDOB(newValue);
                   }}
                   renderInput={(params) => (
-                    <TextField {...params} {...register("dob")} />
+                    <TextField {...params} {...register('dob')} />
                   )}
                 />
               </LocalizationProvider>
@@ -103,7 +98,7 @@ const RegistrationForm: React.FC = () => {
                     setValueOfDOD(newValue);
                   }}
                   renderInput={(params) => (
-                    <TextField {...params} {...register("dod")} />
+                    <TextField {...params} {...register('dod')} />
                   )}
                 />
               </LocalizationProvider>
@@ -121,7 +116,7 @@ const RegistrationForm: React.FC = () => {
                 type="text"
                 variant="outlined"
                 size="small"
-                {...register("gender")}
+                {...register('gender')}
                 InputLabelProps={{
                   sx: {
                     root: styles.heading,
@@ -143,7 +138,7 @@ const RegistrationForm: React.FC = () => {
                 type="text"
                 variant="outlined"
                 size="small"
-                {...register("email")}
+                {...register('email')}
                 InputLabelProps={{
                   sx: {
                     root: styles.heading,
@@ -165,7 +160,7 @@ const RegistrationForm: React.FC = () => {
                 type="text"
                 variant="outlined"
                 size="small"
-                {...register("phone")}
+                {...register('phone')}
                 InputLabelProps={{
                   sx: {
                     root: styles.heading,
@@ -187,7 +182,7 @@ const RegistrationForm: React.FC = () => {
                 type="text"
                 variant="outlined"
                 size="small"
-                {...register("address")}
+                {...register('address')}
                 InputLabelProps={{
                   sx: {
                     root: styles.heading,
@@ -209,7 +204,7 @@ const RegistrationForm: React.FC = () => {
                 type="text"
                 variant="outlined"
                 size="small"
-                {...register("bloodGroup")}
+                {...register('bloodGroup')}
                 InputLabelProps={{
                   sx: {
                     root: styles.heading,
@@ -234,6 +229,6 @@ const RegistrationForm: React.FC = () => {
       </form>
     </Box>
   );
-};
+}
 
 export default RegistrationForm;
