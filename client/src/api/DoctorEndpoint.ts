@@ -44,6 +44,15 @@ export const getDoctorById = async (
   }
 };
 
+const handleAuthentication = async (publicAddress: string, nonce: number) => {
+  const signer = provider.getSigner();
+  const signature = await signer.signMessage(nonce.toString());
+  const response = await axios.post(
+    `/api/verify?address=${publicAddress}&signature=${signature}`
+  );
+  console.log(response);
+};
+
 export const connectDoctor = async () => {
   const publicAddress = await provider.listAccounts();
   console.log(publicAddress[0]);
@@ -55,6 +64,7 @@ export const connectDoctor = async () => {
   });
   if (!res) return null;
   console.log(res.data);
+  handleAuthentication(publicAddress[0], res.data.nonce);
   return res.data;
 };
 
@@ -66,5 +76,6 @@ export const loginDoctor = async () => {
 
   if (!res) return null;
   console.log(res.data);
+  handleAuthentication(publicAddress[0], res.data.nonce);
   return res.data;
 };
