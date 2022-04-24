@@ -1,4 +1,5 @@
 import './config';
+import './auth/strategy';
 import compression from 'compression';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -8,6 +9,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
 import 'express-async-errors';
 
+import passport from 'passport';
 import apiRouter from './routes/api';
 import { CustomError } from './shared/errors';
 import { ApiResponse } from './types';
@@ -19,6 +21,7 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(passport.initialize());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));

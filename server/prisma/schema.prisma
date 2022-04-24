@@ -83,9 +83,9 @@ model VitalRecord {
   @@map("vital_records")
 }
 
-model User {
+model Auth {
   nonce         Int
-  publicAddress String @unique
-  username      String
+  publicAddress String @id
+  userId        String @map("user_id") @db.Uuid
   role          Role   @default(PATIENT)
 }

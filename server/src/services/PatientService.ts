@@ -1,7 +1,7 @@
-import { Patient, PrismaClient } from "@prisma/client";
-import { PatientInterface } from "../types";
-import { validateObject } from "../utils/hash";
-import ChainService from "./ChainService";
+import { Patient, PrismaClient } from '@prisma/client';
+import { PatientInterface } from '../types';
+import { validateObject } from '../utils/hash';
+import ChainService from './ChainService';
 
 export interface GetAllPatientsOptions {
   limit: number;
@@ -21,7 +21,7 @@ export default class PatientService {
   public static prisma: PrismaClient = new PrismaClient();
 
   public static async getAllPatients(
-    args?: GetAllPatientsOptions
+    args?: GetAllPatientsOptions,
   ): Promise<GetAllPatientsResult> {
     let queryResult: Patient[];
 
@@ -46,7 +46,7 @@ export default class PatientService {
             result: validationResult,
           },
         };
-      })
+      }),
     );
 
     return {
@@ -56,7 +56,7 @@ export default class PatientService {
   }
 
   public static async getPatientById(
-    id: string
+    id: string,
   ): Promise<GetPatientByIdResult> {
     const queryResult = await this.prisma.patient.findUnique({
       where: {

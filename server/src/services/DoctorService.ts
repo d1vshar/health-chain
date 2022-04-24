@@ -1,7 +1,7 @@
-import { Doctor, PrismaClient } from "@prisma/client";
-import { DoctorInterface } from "../types";
-import { validateObject } from "../utils/hash";
-import ChainService from "./ChainService";
+import { Doctor, PrismaClient } from '@prisma/client';
+import { DoctorInterface } from '../types';
+import { validateObject } from '../utils/hash';
+import ChainService from './ChainService';
 
 export interface GetAllDoctorsOptions {
   limit: number;
@@ -21,7 +21,7 @@ export default class DoctorService {
   public static readonly prisma: PrismaClient = new PrismaClient();
 
   public static async getAllDoctors(
-    args?: GetAllDoctorsOptions
+    args?: GetAllDoctorsOptions,
   ): Promise<GetAllDoctorsResult> {
     let queryResult: Doctor[];
 
@@ -46,7 +46,7 @@ export default class DoctorService {
             result: validationResult,
           },
         };
-      })
+      }),
     );
 
     return {

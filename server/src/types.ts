@@ -18,6 +18,12 @@ export interface ErrorObject {
   details?: string;
 }
 
+export interface AuthInterface {
+  verificationResult: boolean;
+  id?: string;
+  token?: string;
+}
+
 export interface ValidationState {
   hash: string;
   result: boolean;
