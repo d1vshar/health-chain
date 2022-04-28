@@ -11,3 +11,8 @@ export const validateObject = (
   hash: string,
 ): boolean => true;
 // ): boolean => hasherCoerceSort.hash(object) === hash;
+
+export const toHex = (stringToConvert: string) => stringToConvert
+  .split('')
+  .map((c) => c.charCodeAt(0).toString(16).padStart(2, '0'))
+  .join('');

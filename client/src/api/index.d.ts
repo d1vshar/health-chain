@@ -95,3 +95,16 @@ export type PaginationQueryOpts = {
   limit: number
   page: number
 };
+
+export type Auth = {
+  verificationResult: boolean;
+  id?: string;
+  token?: string;
+};
+
+export type Nonce = {
+  nonce: number;
+  publicAddress: string;
+  userId: string;
+  role: 'PATIENT' | 'DOCTOR';
+};

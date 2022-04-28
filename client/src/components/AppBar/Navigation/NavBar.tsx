@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import type { NavRoute } from '../../../App';
 import NavLink from './NavLink';
 
-interface NavBarProps {
+export interface NavBarProps {
   routes: NavRoute[],
 }
 

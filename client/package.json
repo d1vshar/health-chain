@@ -19,6 +19,7 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@heroicons/react": "^1.0.6",
+    "@metamask/detect-provider": "^1.2.0",
     "@mui/material": "^5.6.1",
     "@mui/x-date-pickers": "^5.0.0-alpha.1",
     "@testing-library/jest-dom": "^5.16.4",
@@ -27,11 +28,14 @@
     "axios": "^0.26.1",
     "chance": "^1.1.8",
     "date-fns": "^2.28.0",
+    "ethers": "^5.6.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-error-boundary": "^3.1.4",
     "react-hook-form": "^7.30.0",
     "react-router-dom": "^6.3.0",
-    "recoil": "^0.7.2"
+    "recoil": "^0.7.2",
+    "sass": "^1.50.1"
   },
   "devDependencies": {
     "@types/chance": "^1.1.3",

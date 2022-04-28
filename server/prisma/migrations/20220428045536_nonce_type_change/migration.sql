@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Auth" ALTER COLUMN "nonce" SET DATA TYPE TEXT;

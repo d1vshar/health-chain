@@ -18,6 +18,13 @@ export interface ErrorObject {
   details?: string;
 }
 
+export interface NonceInterface {
+  nonce: number;
+  publicAddress: string;
+  userId: string;
+  role: 'PATIENT' | 'DOCTOR';
+}
+
 export interface AuthInterface {
   verificationResult: boolean;
   id?: string;

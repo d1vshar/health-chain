@@ -1,4 +1,5 @@
 import { Auth, PrismaClient } from '@prisma/client';
+// import { toHex } from '../utils/hash';
 
 export interface GetAuthByPublicAddressResult {
   data: Auth | null;
@@ -25,12 +26,13 @@ export default class AuthService {
     return {
       data: {
         ...queryResult,
+        nonce: queryResult.nonce.toString(),
       },
     };
   }
 
   public static async setAuthByPublicAddress(
-    nonce: number,
+    nonce: string,
     publicAddress: string,
     userId: string,
     role: any,

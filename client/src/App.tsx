@@ -1,16 +1,18 @@
 import { Container, CssBaseline, ThemeProvider } from '@mui/material';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import AppBar from './components/AppBar/AppBar';
-import NavBar from './components/AppBar/Navigation/NavBar';
-import ProfileBox from './components/AppBar/Profile/ProfileBox';
+// import AppBar from './components/AppBar/AppBar';
+// import NavBar from './components/AppBar/Navigation/NavBar';
+// import ProfileBox from './components/AppBar/Profile/ProfileBox';
 import DashboardPage from './pages/DashboardPage';
 import PatientsPage from './pages/PatientsPage';
-import DoctorsPage from './pages/DoctorsPage';
+// import DoctorsPage from './pages/DoctorsPage';
 import AuditPage from './pages/AuditPage';
 import theme from './theme';
-import DoctorProfilePage from './pages/DoctorProfilePage';
-import PatientProfilePage from './pages/PatientProfilePage';
+// import DoctorProfilePage from './pages/DoctorProfilePage';
+// import PatientProfilePage from './pages/PatientProfilePage';
+import AppBarHOC from './AppBarHOC';
+import AuthPage from './pages/AuthPage';
 
 export interface NavRoute {
   href: string,
@@ -22,37 +24,37 @@ export interface NavRoute {
 
 const routes: NavRoute[] = [
   {
-    href: '/',
+    href: '/app',
     label: 'Dashboard',
     navBar: true,
     component: DashboardPage,
   },
   {
-    href: 'patients',
-    label: 'Patients',
+    href: '/app/records',
+    label: 'Records',
     navBar: true,
     component: PatientsPage,
   },
+  // {
+  //   href: 'patient/:id',
+  //   label: 'Patients',
+  //   navBar: false,
+  //   component: PatientProfilePage,
+  // },
+  // {
+  //   href: 'doctors',
+  //   label: 'Doctors',
+  //   navBar: true,
+  //   component: DoctorsPage,
+  // },
+  // {
+  //   href: 'doctor/:id',
+  //   label: 'Doctor Page',
+  //   navBar: false,
+  //   component: DoctorProfilePage,
+  // },
   {
-    href: 'patient/:id',
-    label: 'Patients',
-    navBar: false,
-    component: PatientProfilePage,
-  },
-  {
-    href: 'doctors',
-    label: 'Doctors',
-    navBar: true,
-    component: DoctorsPage,
-  },
-  {
-    href: 'doctor/:id',
-    label: 'Doctor Page',
-    navBar: false,
-    component: DoctorProfilePage,
-  },
-  {
-    href: 'audit',
+    href: '/app/audit',
     label: 'Audit',
     navBar: true,
     component: AuditPage,
@@ -68,23 +70,12 @@ function App() {
       <Container
         maxWidth="xl"
       >
-        <AppBar>
-          <NavBar
-            routes={routes}
-          />
-          <ProfileBox
-            name="AIIMS Delhi"
-            userRole="Hospital"
-            address="1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8"
-            pic="https://www.med.unc.edu/pgc/wp-content/uploads/sites/959/2020/07/aiims-logo.png"
-          />
-        </AppBar>
         <Routes>
           {routes.map(({ href, component, children }) => (
             <Route
               key={href}
               path={href}
-              element={React.createElement(component)}
+              element={<AppBarHOC routes={routes} auth>{React.createElement(component)}</AppBarHOC>}
             >
               {children ? children.map((childRoute) => (
                 <Route
@@ -95,6 +86,10 @@ function App() {
               )) : null}
             </Route>
           ))}
+          <Route
+            path="/"
+            element={<AuthPage />}
+          />
         </Routes>
       </Container>
     </ThemeProvider>
