@@ -20,6 +20,7 @@ function AuditPage() {
       setRows(events);
     })();
   }, []);
+
   return (
     <PageContent>
       <PageHeader>

@@ -160,6 +160,7 @@ router.post('/:recordId/permission', async (req: Request, res: Response, next: N
     };
     res.status(StatusCodes.OK).json(response);
   } catch (e) {
+    console.log(e);
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       next(new BadRequestError());
       return;
