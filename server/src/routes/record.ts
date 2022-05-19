@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import {
   NextFunction, Request, Response, Router,
 } from 'express';
@@ -9,21 +9,19 @@ import { ApiResponse } from '../types';
 
 const router = Router();
 
-router.get('/:patientId', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     let getAllRecordsByPatientIdResult: GetAllRecordsByPatientIdResult;
     let response: ApiResponse;
 
-    const { patientId } = req.params;
-
-    const { limit, page } = req.query;
+    const { patientId, limit, page } = req.query;
 
     if (page !== undefined && limit !== undefined) {
       const limitNum: number = parseInt(limit as string, 10);
       const pageNum: number = parseInt(page as string, 10);
 
       getAllRecordsByPatientIdResult = await RecordService.getAllRecordsByPatientId(
-        patientId,
+        patientId as string,
         {
           limit: limitNum,
           page: pageNum,
@@ -42,7 +40,9 @@ router.get('/:patientId', async (req: Request, res: Response, next: NextFunction
         },
       };
     } else {
-      getAllRecordsByPatientIdResult = await RecordService.getAllRecordsByPatientId(patientId);
+      getAllRecordsByPatientIdResult = await RecordService.getAllRecordsByPatientId(
+        patientId as string,
+      );
 
       response = {
         status: StatusCodes.OK,
@@ -62,9 +62,9 @@ router.get('/:patientId', async (req: Request, res: Response, next: NextFunction
   }
 });
 
-router.post('/:patientId', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { patientId } = req.params;
+    const { patientId } = req.query;
     const {
       temperature,
       respRate,
@@ -76,7 +76,7 @@ router.post('/:patientId', async (req: Request, res: Response, next: NextFunctio
     } = req.body;
 
     const patientRecord = {
-      patientId,
+      patientId: patientId as string,
       temperature,
       respRate,
       o2sat,
@@ -96,6 +96,69 @@ router.post('/:patientId', async (req: Request, res: Response, next: NextFunctio
     };
 
     res.status(StatusCodes.CREATED).json(response);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      next(new BadRequestError());
+      return;
+    }
+    next(new InternalServerError());
+  }
+});
+
+router.get('/permissions', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { patientId } = req.query;
+
+    const prisma = new PrismaClient();
+    const findManyRecordPermsResult = await prisma.recordPermission.findMany({
+      where: {
+        patientId: patientId as string,
+      },
+    });
+
+    const response: ApiResponse = {
+      status: StatusCodes.OK,
+      data: {
+        permissions: findManyRecordPermsResult,
+      },
+    };
+    res.status(StatusCodes.OK).json(response);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      next(new BadRequestError());
+      return;
+    }
+    next(new InternalServerError());
+  }
+});
+
+router.get('/:recordId/permissions', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { recordId } = req.params;
+
+    const {
+      patientId, doctorId, read, write, manage,
+    } = req.body;
+
+    const prisma = new PrismaClient();
+    const createRecordPermResult = await prisma.recordPermission.create({
+      data: {
+        recordId,
+        patientId,
+        doctorId,
+        read,
+        write,
+        manage,
+      },
+    });
+
+    const response: ApiResponse = {
+      status: StatusCodes.OK,
+      data: {
+        permission: createRecordPermResult,
+      },
+    };
+    res.status(StatusCodes.OK).json(response);
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       next(new BadRequestError());

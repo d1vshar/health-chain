@@ -25,6 +25,7 @@ model Patient {
   vitalRecords VitalRecord[]
 
   @@map("patients")
+  RecordPermission RecordPermission[]
 }
 
 model Doctor {
@@ -40,6 +41,7 @@ model Doctor {
   doctorRegistrations  DoctorRegistration[]
   vitalRecords         VitalRecord[]
 
+  RecordPermission RecordPermission[]
   @@map("doctors")
 }
 
@@ -80,6 +82,7 @@ model VitalRecord {
   doctor      Doctor?  @relation(fields: [addedBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
   patient     Patient  @relation(fields: [patientId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  RecordPermission RecordPermission[]
   @@map("vital_records")
 }
 
@@ -98,4 +101,18 @@ model AuditEvent {
   status         String
   accountAddress String
   ip             String
+}
+
+model RecordPermission {
+  recordId  String       @id @db.Uuid
+  patientId String       @db.Uuid
+  doctorId  String       @db.Uuid
+  read      Boolean      @default(false)
+  write     Boolean      @default(false)
+  manage    Boolean      @default(false)
+  patient   Patient?     @relation(fields: [patientId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  doctor    Doctor?      @relation(fields: [doctorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  record    VitalRecord? @relation(fields: [recordId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("record_permissions")
 }

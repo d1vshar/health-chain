@@ -1,6 +1,6 @@
 import chance from 'chance';
 import {
-  Doctor, Patient, Prisma, PrismaClient,AuditEvent
+  Doctor, Patient, Prisma, PrismaClient, AuditEvent,
 } from '@prisma/client';
 import cliProgress, { Options } from 'cli-progress';
 
@@ -118,7 +118,7 @@ const generatePaitents = (
   return data;
 };
 
-const generateAuditLogs =():Prisma.AuditEventCreateManyInput[] => {
+const generateAuditLogs = ():Prisma.AuditEventCreateManyInput[] => {
   const amount = 10 + Math.floor(Math.random() * 100);
   const data: Prisma.AuditEventCreateManyInput[] = [];
 
@@ -133,7 +133,7 @@ const generateAuditLogs =():Prisma.AuditEventCreateManyInput[] => {
   }
 
   return data;
-}
+};
 
 const populate = async () => {
   const opt: Options = {
@@ -205,7 +205,7 @@ const populate = async () => {
     auditLogsPromises.push(promise);
     await promise;
     auditBar.increment();
-  })
+  });
   await Promise.all(auditLogsPromises);
   patientBar.stop();
   console.log('Mock data generation successfull!');
