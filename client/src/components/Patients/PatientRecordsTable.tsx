@@ -48,7 +48,7 @@ export default function PatientRecordsTable({ data }: PatientRecordsTableProps) 
                 <TableCell>{record.o2sat}</TableCell>
                 <TableCell>{`${record.sbp} / ${record.dpb}`}</TableCell>
                 <TableCell>{record.addedBy}</TableCell>
-                <TableCell><Button onClick={() => navigate(`/app/record/${record.id}/permissions`)}>Modify</Button></TableCell>
+                <TableCell><Button onClick={() => navigate(`/app/record/${record.id}/permissions`)}>Manage Permissions</Button></TableCell>
               </TableRow>
             ))}
           </TableBody>
