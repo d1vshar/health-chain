@@ -17,7 +17,7 @@ export interface PatientsData {
 
 export interface AuditEvent {
   eventAddress: string,
-  timestamp: Date,
+  timestamp: string,
   eventType: string,
   status: string,
   accountAddress: string,

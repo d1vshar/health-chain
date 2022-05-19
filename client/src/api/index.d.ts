@@ -110,3 +110,12 @@ export type Nonce = {
   userId: string;
   role: 'PATIENT' | 'DOCTOR';
 };
+
+export type AuditEvent = {
+  eventAddress: string,
+  timestamp: string,
+  eventType: string,
+  status: string,
+  accountAddress: string,
+  ip: string,
+};
