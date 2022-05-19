@@ -28,10 +28,10 @@ function AppBarHOC({ routes, children, auth }: AppBarHOCProps) {
           routes={routes}
         />
         <ProfileBox
-          name="AIIMS Delhi"
-          userRole="Hospital"
-          address="1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8"
-          pic="https://www.med.unc.edu/pgc/wp-content/uploads/sites/959/2020/07/aiims-logo.png"
+          name="Divyanshu Sharma"
+          userRole="Patient"
+          address="0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+          pic="https://cn.i.cdn.ti-platform.com/content/20/the-amazing-world-of-gumball/showpage/za/gumball-carousel.a94b8e60.png"
         />
       </AppBar>
       {children}
