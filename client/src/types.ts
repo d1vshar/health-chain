@@ -37,7 +37,6 @@ export interface RecordData {
 }
 
 export interface RecordPermissionData {
-  id: string,
   recordId: string,
   patientId: string,
   doctorId: string,
