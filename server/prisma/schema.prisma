@@ -67,18 +67,18 @@ model DoctorRegistration {
 
 model VitalRecord {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  patient_id  String   @db.Uuid
+  patientId  String   @db.Uuid @map("patient_id")
   temperature Decimal? @db.Decimal(10, 4)
-  heart_rate  Decimal? @db.Decimal(10, 4)
-  resp_rate   Decimal? @db.Decimal(10, 4)
+  heartRate  Decimal? @db.Decimal(10, 4) @map("heart_rate")
+  respRate   Decimal? @db.Decimal(10, 4) @map("resp_rate")
   o2sat       Decimal? @db.Decimal(10, 4)
   sbp         Int?
   dpb         Int?
   rhythm      String?
   pain        String?
-  added_by    String?  @db.Uuid
-  doctor      Doctor?  @relation(fields: [added_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  patient     Patient  @relation(fields: [patient_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  addedBy    String?  @db.Uuid @map("added_by")
+  doctor      Doctor?  @relation(fields: [addedBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  patient     Patient  @relation(fields: [patientId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("vital_records")
 }
