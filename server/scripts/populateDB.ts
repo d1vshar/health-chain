@@ -1,6 +1,6 @@
 import chance from 'chance';
 import {
-  Doctor, Patient, Prisma, PrismaClient,
+  Doctor, Patient, Prisma, PrismaClient,AuditEvent
 } from '@prisma/client';
 import cliProgress, { Options } from 'cli-progress';
 
@@ -74,12 +74,12 @@ Prisma.VitalRecordCreateManyPatientInput[] => {
   for (let i = 0; i < amount; i += 1) {
     data.push({
       temperature: chance().floating({ min: 97, max: 104, fixed: 1 }),
-      heart_rate: chance().floating({ min: 40, max: 140, fixed: 1 }),
-      resp_rate: chance().natural({ min: 10, max: 40 }),
+      heartRate: chance().floating({ min: 40, max: 140, fixed: 1 }),
+      respRate: chance().natural({ min: 10, max: 40 }),
       o2sat: chance().floating({ min: 85, max: 99, fixed: 1 }),
       sbp: chance().natural({ min: 100, max: 200 }),
       dpb: chance().natural({ min: 60, max: 140 }),
-      added_by: chance().pickone(doctors).id,
+      addedBy: chance().pickone(doctors).id,
     });
   }
 
@@ -115,9 +115,25 @@ const generatePaitents = (
       },
     });
   }
-
   return data;
 };
+
+const generateAuditLogs =():Prisma.AuditEventCreateManyInput[] => {
+  const amount = 10 + Math.floor(Math.random() * 100);
+  const data: Prisma.AuditEventCreateManyInput[] = [];
+
+  for (let i = 0; i < amount; i += 1) {
+    data.push({
+      eventAddress: chance().guid(),
+      eventType: chance().pickone(['login', 'logout', 'create', 'update', 'delete']),
+      status: chance().pickone(['success', 'failure']),
+      accountAddress: chance().guid(),
+      ip: chance().ip(),
+    });
+  }
+
+  return data;
+}
 
 const populate = async () => {
   const opt: Options = {
@@ -126,11 +142,12 @@ const populate = async () => {
   const resetBar = new cliProgress.SingleBar(opt, cliProgress.Presets.rect);
   const doctorBar = new cliProgress.SingleBar(opt, cliProgress.Presets.rect);
   const patientBar = new cliProgress.SingleBar(opt, cliProgress.Presets.rect);
+  const auditBar = new cliProgress.SingleBar(opt, cliProgress.Presets.rect);
   const prisma = new PrismaClient();
 
   // clear existing data
   console.log('Deleting all existing data');
-  resetBar.start(5, 0);
+  resetBar.start(6, 0);
   await prisma.doctorQualification.deleteMany();
   resetBar.increment();
   await prisma.doctorRegistration.deleteMany();
@@ -140,6 +157,8 @@ const populate = async () => {
   await prisma.doctor.deleteMany();
   resetBar.increment();
   await prisma.patient.deleteMany();
+  resetBar.increment();
+  await prisma.auditEvent.deleteMany();
   resetBar.increment();
   resetBar.stop();
 
@@ -175,6 +194,20 @@ const populate = async () => {
   await Promise.all(patientPromises);
   patientBar.stop();
 
+  console.log('Starting mock data generation for `auditLogs` model');
+  auditBar.start(100, 0);
+  const auditLogsList = generateAuditLogs();
+  const auditLogsPromises: Promise<AuditEvent>[] = [];
+  auditLogsList.forEach(async (auditLog) => {
+    const promise = prisma.auditEvent.create({
+      data: auditLog,
+    });
+    auditLogsPromises.push(promise);
+    await promise;
+    auditBar.increment();
+  })
+  await Promise.all(auditLogsPromises);
+  patientBar.stop();
   console.log('Mock data generation successfull!');
 };
 

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "AuditEvent" ALTER COLUMN "timestamp" DROP NOT NULL,
+ALTER COLUMN "timestamp" SET DEFAULT CURRENT_TIMESTAMP;

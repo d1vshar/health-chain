@@ -1,4 +1,5 @@
 import { PrismaClient, VitalRecord } from '@prisma/client';
+import { Decimal } from '@prisma/client/runtime';
 import { VitalRecordInterface } from '../types';
 import { validateObject } from '../utils/hash';
 import ChainService from './ChainService';
@@ -15,6 +16,17 @@ export interface GetAllRecordsByPatientIdResult {
 
 export interface GetPatientByIdResult {
   data: VitalRecordInterface | null;
+}
+
+export interface PatientRecordInterface {
+  patientId: string;
+  temperature: Decimal | null;
+  respRate: Decimal | null;
+  o2sat: Decimal | null;
+  sbp: number | null;
+  dpb: number | null;
+  rhythm: string | null;
+  pain: string | null;
 }
 
 export default class RecordService {
@@ -61,5 +73,24 @@ export default class RecordService {
       count,
       data: recordsData,
     };
+  }
+
+  public static async createRecord(
+    patientRecord: PatientRecordInterface,
+  ) {
+    const response = await this.prisma.vitalRecord.create({
+      data: {
+        patientId: patientRecord.patientId,
+        temperature: patientRecord.temperature,
+        respRate: patientRecord.respRate,
+        o2sat: patientRecord.o2sat,
+        sbp: patientRecord.sbp,
+        dpb: patientRecord.dpb,
+        rhythm: patientRecord.rhythm,
+        pain: patientRecord.pain,
+
+      },
+    });
+    return response;
   }
 }

@@ -62,4 +62,47 @@ router.get('/:patientId', async (req: Request, res: Response, next: NextFunction
   }
 });
 
+router.post('/:patientId', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { patientId } = req.params;
+    const {
+      temperature,
+      respRate,
+      o2sat,
+      sbp,
+      dpb,
+      rhythm,
+      pain,
+    } = req.body;
+
+    const patientRecord = {
+      patientId,
+      temperature,
+      respRate,
+      o2sat,
+      sbp,
+      dpb,
+      rhythm,
+      pain,
+    };
+
+    const createRecordResult = await RecordService.createRecord(patientRecord);
+
+    const response: ApiResponse = {
+      status: StatusCodes.CREATED,
+      data: {
+        record: createRecordResult,
+      },
+    };
+
+    res.status(StatusCodes.CREATED).json(response);
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      next(new BadRequestError());
+      return;
+    }
+    next(new InternalServerError());
+  }
+});
+
 export default router;

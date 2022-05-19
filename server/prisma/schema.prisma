@@ -67,16 +67,16 @@ model DoctorRegistration {
 
 model VitalRecord {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  patientId  String   @db.Uuid @map("patient_id")
+  patientId   String   @map("patient_id") @db.Uuid
   temperature Decimal? @db.Decimal(10, 4)
-  heartRate  Decimal? @db.Decimal(10, 4) @map("heart_rate")
-  respRate   Decimal? @db.Decimal(10, 4) @map("resp_rate")
+  heartRate   Decimal? @map("heart_rate") @db.Decimal(10, 4)
+  respRate    Decimal? @map("resp_rate") @db.Decimal(10, 4)
   o2sat       Decimal? @db.Decimal(10, 4)
   sbp         Int?
   dpb         Int?
   rhythm      String?
   pain        String?
-  addedBy    String?  @db.Uuid @map("added_by")
+  addedBy     String?  @map("added_by") @db.Uuid
   doctor      Doctor?  @relation(fields: [addedBy], references: [id], onDelete: NoAction, onUpdate: NoAction)
   patient     Patient  @relation(fields: [patientId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
@@ -88,4 +88,14 @@ model Auth {
   publicAddress String @id
   userId        String @map("user_id") @db.Uuid
   role          Role   @default(PATIENT)
+}
+
+model AuditEvent {
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  eventAddress   String
+  timestamp      DateTime? @default(now()) @db.Timestamp(6)
+  eventType      String
+  status         String
+  accountAddress String
+  ip             String
 }
