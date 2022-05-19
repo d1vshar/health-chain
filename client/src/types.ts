@@ -35,3 +35,13 @@ export interface RecordData {
   dbp:number,
   doctorId:string,
 }
+
+export interface RecordPermissionData {
+  id: string,
+  recordId: string,
+  patientId: string,
+  doctorId: string,
+  read: boolean,
+  write: boolean,
+  manage: boolean,
+}

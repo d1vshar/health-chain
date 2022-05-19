@@ -14,7 +14,6 @@ import theme from './theme';
 import AppBarHOC from './AppBarHOC';
 import AuthPage from './pages/AuthPage';
 import PatientPermissionsPage from './pages/PatientPermissionsPage';
-import { FALSE } from 'sass';
 
 export interface NavRoute {
   href: string,

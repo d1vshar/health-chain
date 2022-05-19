@@ -105,14 +105,14 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-router.get('/permissions', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/:recordId/permission', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { patientId } = req.query;
+    const { recordId } = req.params;
 
     const prisma = new PrismaClient();
     const findManyRecordPermsResult = await prisma.recordPermission.findMany({
       where: {
-        patientId: patientId as string,
+        recordId,
       },
     });
 
@@ -132,7 +132,7 @@ router.get('/permissions', async (req: Request, res: Response, next: NextFunctio
   }
 });
 
-router.get('/:recordId/permissions', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/:recordId/permission', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { recordId } = req.params;
 
