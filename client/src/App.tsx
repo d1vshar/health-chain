@@ -13,6 +13,7 @@ import theme from './theme';
 // import PatientProfilePage from './pages/PatientProfilePage';
 import AppBarHOC from './AppBarHOC';
 import AuthPage from './pages/AuthPage';
+import PatientPermissionsPage from './pages/PatientPermissionsPage';
 
 export interface NavRoute {
   href: string,
@@ -34,6 +35,12 @@ const routes: NavRoute[] = [
     label: 'Records',
     navBar: true,
     component: PatientsPage,
+  },
+  {
+    href: '/app/record/:id/permissions',
+    label: 'Patient Permissions',
+    navBar: false,
+    component: PatientPermissionsPage,
   },
   // {
   //   href: 'patient/:id',
