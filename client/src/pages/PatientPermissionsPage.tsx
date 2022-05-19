@@ -1,16 +1,53 @@
 import React from 'react';
 import {
   Button,
-  Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Checkbox,
+  Dialog,
+  FormControlLabel,
+  FormGroup,
+  Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { CheckIcon, XIcon } from '@heroicons/react/solid';
 import recordPermissions from '../assets/mockData/recordPermissions';
 
 export default function PatientPermissionsPage() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const [doctorId, setDoctorId] = React.useState('');
+  const [read, setRead] = React.useState(false);
+  const [write, setWrite] = React.useState(false);
+  const [modify, setModify] = React.useState(false);
   const { id } = useParams();
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <Button onClick={handleOpen}>Open modal</Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+      >
+        <TextField
+          required
+          id="outlined-required"
+          label="Required"
+          defaultValue={doctorId}
+          onChange={(e) => setDoctorId(e.target.value)}
+        />
+        <FormGroup>
+          <FormControlLabel control={<Checkbox checked={read} onChange={(e) => setRead(e.target.checked)} />} label="Read" />
+          <FormControlLabel control={<Checkbox checked={write} onChange={(e) => setWrite(e.target.checked)} />} label="Write" />
+          <FormControlLabel control={<Checkbox checked={modify} onChange={(e) => setModify(e.target.checked)} />} label="Modify" />
+          <Button>Submit</Button>
+        </FormGroup>
+      </Dialog>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
