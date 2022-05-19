@@ -43,4 +43,5 @@ export enum ApiResource {
   PATIENT = 'patient',
   DOCTOR = 'doctor',
   AUTH = 'auth',
+  AUDIT_EVENT = 'audit/logs',
 }

@@ -49,7 +49,7 @@ function AuditTable({ events }: AuditTableProps) {
                 />
               </Tooltip>
             </TableCell>
-            <TableCell>{event.timestamp.toISOString()}</TableCell>
+            <TableCell>{event.timestamp}</TableCell>
             <TableCell>{event.eventType}</TableCell>
             <TableCell>{event.status}</TableCell>
             <TableCell>
