@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Button,
+  // Button,
   Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { CheckIcon, XIcon } from '@heroicons/react/solid';
-import recordPermissions from '../assets/mockData/recordPermissions';
+import { useRecoilValue } from 'recoil';
+import { getRecordPermissions } from '../api/RecordEndpoint';
+import authAtom from '../store/authState';
+import { RecordPermissionData } from '../types';
 
 export default function PatientPermissionsPage() {
   const { id } = useParams();
+  const authState = useRecoilValue(authAtom);
+  const [permissions, setPermissions] = useState<RecordPermissionData[]>([]);
+
+  useEffect(() => {
+    console.log('send request');
+    const fetchData = async () => {
+      console.log(authState, id);
+      if (authState !== null && id !== undefined) {
+        console.log('hello', id);
+        const apiResponse = await getRecordPermissions(authState, id);
+
+        console.log(apiResponse);
+
+        setPermissions(apiResponse?.data?.permissions || []);
+      }
+    };
+
+    fetchData();
+  }, [authState, id]);
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
@@ -16,62 +39,59 @@ export default function PatientPermissionsPage() {
           <TableHead>
             <TableRow>
               <TableCell>Doctor Id</TableCell>
-              <TableCell>Doctor Name</TableCell>
               <TableCell>Read Permission</TableCell>
               <TableCell>Write Permission</TableCell>
               <TableCell>Manage Permission</TableCell>
-              <TableCell>Change</TableCell>
+              {/* <TableCell>Change</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {recordPermissions.map((row) => id === row.id && (
-            <TableRow key={row.id}>
-              <TableCell>{row.doctorId}</TableCell>
-              <TableCell>{row.doctorName}</TableCell>
-              <TableCell>
-                {row.read ? (
-                  <CheckIcon
-                    height="24px"
-                    width="24px"
-                  />
-                ) : (
-                  <XIcon
-                    height="24px"
-                    width="24px"
-                  />
-                )}
+            {permissions.map((p: RecordPermissionData) => (
+              <TableRow key={p.id}>
+                <TableCell>{p.doctorId}</TableCell>
+                <TableCell>
+                  {p.read ? (
+                    <CheckIcon
+                      height="24px"
+                      width="24px"
+                    />
+                  ) : (
+                    <XIcon
+                      height="24px"
+                      width="24px"
+                    />
+                  )}
 
-              </TableCell>
-              <TableCell>
-                {row.write ? (
-                  <CheckIcon
-                    height="24px"
-                    width="24px"
-                  />
-                ) : (
-                  <XIcon
-                    height="24px"
-                    width="24px"
-                  />
-                )}
+                </TableCell>
+                <TableCell>
+                  {p.write ? (
+                    <CheckIcon
+                      height="24px"
+                      width="24px"
+                    />
+                  ) : (
+                    <XIcon
+                      height="24px"
+                      width="24px"
+                    />
+                  )}
 
-              </TableCell>
-              <TableCell>
-                {row.manage ? (
-                  <CheckIcon
-                    height="24px"
-                    width="24px"
-                  />
-                ) : (
-                  <XIcon
-                    height="24px"
-                    width="24px"
-                  />
-                )}
+                </TableCell>
+                <TableCell>
+                  {p.manage ? (
+                    <CheckIcon
+                      height="24px"
+                      width="24px"
+                    />
+                  ) : (
+                    <XIcon
+                      height="24px"
+                      width="24px"
+                    />
+                  )}
 
-              </TableCell>
-              <TableCell><Button>Delete</Button></TableCell>
-            </TableRow>
+                </TableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>

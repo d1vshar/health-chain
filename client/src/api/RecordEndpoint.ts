@@ -48,6 +48,8 @@ export const getRecordPermissions = async (
       },
     );
 
+    console.log('send request2', JSON.stringify(queryResponse));
+
     return queryResponse.data;
   } catch (e) {
     return null;
