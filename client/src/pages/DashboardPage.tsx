@@ -17,6 +17,7 @@ import { Line } from 'react-chartjs-2';
 import PageContent from '../components/Page/PageContent';
 import PageHeader from '../components/Page/PageHeader';
 import PageTitle from '../components/Page/PageTitle';
+import PatientRecordsTable from '../components/Patients/PatientRecordsTable';
 
 ChartJS.register(
   CategoryScale,
@@ -137,6 +138,7 @@ function DashboardPage() {
           </Card>
         </Stack>
       </Box>
+      <PatientRecordsTable />
     </PageContent>
   );
 }

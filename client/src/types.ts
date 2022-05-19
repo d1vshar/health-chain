@@ -23,3 +23,14 @@ export interface AuditEvent {
   accountAddress: string,
   ip: string,
 }
+
+export interface PatientRecords {
+  id: string,
+  temperature: number,
+  heart_rate:number,
+  resp_rate:number,
+  o2sat:number,
+  sbp:number,
+  dbp:number,
+  doctor:string,
+}
