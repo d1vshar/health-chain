@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Stack } from '@mui/material';
 
 interface PageCOntentProps {
   children: React.ReactNode | React.ReactNode[]
@@ -7,11 +7,13 @@ interface PageCOntentProps {
 
 function PageContent({ children }: PageCOntentProps) {
   return (
-    <Box
+    <Stack
       marginY="32px"
+      spacing={6}
+
     >
       {children}
-    </Box>
+    </Stack>
   );
 }
 
