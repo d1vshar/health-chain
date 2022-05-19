@@ -14,10 +14,13 @@ import {
 } from '@mui/material';
 import chance from 'chance';
 import { Line } from 'react-chartjs-2';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import PageContent from '../components/Page/PageContent';
 import PageHeader from '../components/Page/PageHeader';
 import PageTitle from '../components/Page/PageTitle';
 import PatientRecordsTable from '../components/Patients/PatientRecordsTable';
+import recordListStateFamily from '../store/recordListStateFamilty';
+import authAtom from '../store/authState';
 
 ChartJS.register(
   CategoryScale,
@@ -73,6 +76,12 @@ export const data = {
 };
 
 function DashboardPage() {
+  const authState = useRecoilValue(authAtom);
+
+  const [recordList] = useRecoilState(recordListStateFamily(
+    { authState },
+  ));
+
   return (
     <PageContent>
       <PageHeader>
@@ -138,7 +147,7 @@ function DashboardPage() {
           </Card>
         </Stack>
       </Box>
-      <PatientRecordsTable />
+      <PatientRecordsTable data={recordList.list || []} />
     </PageContent>
   );
 }

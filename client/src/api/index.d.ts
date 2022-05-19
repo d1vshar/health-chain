@@ -78,17 +78,17 @@ export type DoctorRegistration = {
  *
  */
 export type VitalRecord = {
-  id: string
-  patient_id: string
-  temperature: number | null
-  heart_rate: number | null
-  resp_rate: number | null
-  o2sat: number | null
-  sbp: number | null
-  dpb: number | null
-  rhythm: string | null
-  pain: string | null
-  added_by: string | null
+  id: string;
+  patientId: string;
+  temperature: number | null;
+  heartRate: number | null;
+  respRate: number | null;
+  o2sat: number | null;
+  sbp: number | null;
+  dpb: number | null;
+  rhythm: string | null;
+  pain: string | null;
+  addedBy: string | null;
 };
 
 export type PaginationQueryOpts = {

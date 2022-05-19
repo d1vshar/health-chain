@@ -1,26 +1,28 @@
-import { PatientRecords } from '../../types';
+import { RecordData } from '../../types';
 
-const patientRecordData:PatientRecords[] = [
+const patientRecordData:RecordData[] = [
   {
+    patientId: '',
     id: '1airih48572872b',
     temperature: 89.5,
-    heart_rate: 80,
+    heartRate: 80,
     o2sat: 90,
-    resp_rate: 20,
+    respRate: 20,
     dbp: 30,
     sbp: 40,
-    doctor: 'Dr. John Doe',
+    doctorId: '12',
 
   },
   {
+    patientId: '',
     id: '2airih48572872b',
     temperature: 102.5,
-    heart_rate: 90,
+    heartRate: 90,
     o2sat: 100,
-    resp_rate: 30,
+    respRate: 30,
     dbp: 40,
     sbp: 50,
-    doctor: 'Dr. Ricky Goyal',
+    doctorId: '923',
 
   },
 ];
