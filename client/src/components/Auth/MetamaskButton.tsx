@@ -18,15 +18,12 @@ function MetamaskButton({ active, onClick }: MetamaskButtonProps) {
     const mmAPI = new MetamaskAPI();
     const address = await mmAPI.signer.getAddress();
 
-    console.log('NONCE');
     const nonce = await getNonceForAddress(address);
 
     if (nonce?.data) {
-      console.log('SIGNATURE');
       const signature = await mmAPI.signIn(nonce?.data.auth.nonce.toString());
 
       if (signature) {
-        console.log('VERIFY');
         const response = await verifyAndLogin(address, signature);
 
         if (response && response.data) {
@@ -34,6 +31,8 @@ function MetamaskButton({ active, onClick }: MetamaskButtonProps) {
             setAuth({
               id: response.data.auth.id!,
               token: response.data.auth.token!,
+              publicAddress: response.data.auth.publicAddress!,
+              role: response.data.auth.role!,
             });
           }
         }

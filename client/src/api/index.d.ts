@@ -100,6 +100,8 @@ export type Auth = {
   verificationResult: boolean;
   id?: string;
   token?: string;
+  publicAddress?: string;
+  role?: 'PATIENT' | 'DOCTOR';
 };
 
 export type Nonce = {

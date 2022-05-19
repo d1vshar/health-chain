@@ -31,6 +31,8 @@ export interface AuthInterface {
   verificationResult: boolean;
   id?: string;
   token?: string;
+  publicAddress?: string;
+  role?: 'PATIENT' | 'DOCTOR';
 }
 
 export interface ValidationState {

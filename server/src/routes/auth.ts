@@ -55,8 +55,6 @@ router.post('/:publicAddress', async (req: Request, res: Response, next: NextFun
         signature,
       );
 
-      console.log(decodedAddress, publicAddress);
-
       if (decodedAddress === publicAddress) {
         const token = signJwt({
           id: getAuthByPublicAddressResult.data.userId,
@@ -68,6 +66,8 @@ router.post('/:publicAddress', async (req: Request, res: Response, next: NextFun
           verificationResult: true,
           token,
           id: getAuthByPublicAddressResult.data.userId,
+          publicAddress: getAuthByPublicAddressResult.data.publicAddress,
+          role: getAuthByPublicAddressResult.data.role,
         };
 
         response = {

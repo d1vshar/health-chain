@@ -17,7 +17,7 @@ function DoctorsTable({
   doctors, pagination, onNextPage, onPrevPage,
 }: DoctorsTableProps) {
   const [
-    pageNum,
+    ,
     hasNextPage,
     hasPrevPage,
     setPageNum,
@@ -26,8 +26,6 @@ function DoctorsTable({
   useEffect(() => {
     setPageNum(pagination?.page ? pagination.page : 1);
   }, [pagination?.page, setPageNum]);
-
-  console.log(JSON.stringify(pagination), pageNum, hasNextPage, hasPrevPage);
 
   return (
     <>

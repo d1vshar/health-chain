@@ -1,8 +1,10 @@
 import { atom } from 'recoil';
 
-interface AuthState {
+export interface AuthState {
   id: string
   token: string
+  publicAddress: string
+  role: string
 }
 
 const authAtom = atom<AuthState | null>({

@@ -3,6 +3,7 @@ import {
   ApiResponse, Pagination, PaginationQueryOpts, Patient,
 } from '../api';
 import { getAllPatients } from '../api/PatientEndppoint';
+import authAtom from './authState';
 
 type PatientListState = {
   list?: Patient[] | null,
@@ -13,26 +14,30 @@ const patientListStateFamily = atomFamily<PatientListState, PaginationQueryOpts 
   key: 'PatientsList',
   default: {},
   effects: (paginationQueryOpts) => [
-    ({ setSelf, trigger }) => {
+    ({ setSelf, trigger, getPromise }) => {
       const fetchData = async () => {
         try {
           let apiResponse: ApiResponse<{ patients: Patient[]; }> | null;
-          if (paginationQueryOpts) {
-            apiResponse = await getAllPatients(
-              paginationQueryOpts.page,
-              paginationQueryOpts.limit,
-            );
-          } else {
-            apiResponse = await getAllPatients();
+          const authState = await getPromise(authAtom);
+          if (authState !== null) {
+            if (paginationQueryOpts) {
+              apiResponse = await getAllPatients(
+                authState,
+                paginationQueryOpts.page,
+                paginationQueryOpts.limit,
+              );
+            } else {
+              apiResponse = await getAllPatients(authState);
+            }
+            if (apiResponse && apiResponse.data) {
+              setSelf({
+                list: apiResponse.data.patients,
+                _pagination: apiResponse._pagination,
+              });
+              return;
+            }
+            setSelf({});
           }
-          if (apiResponse && apiResponse.data) {
-            setSelf({
-              list: apiResponse.data.patients,
-              _pagination: apiResponse._pagination,
-            });
-            return;
-          }
-          setSelf({});
         } catch {
           setSelf({});
         }

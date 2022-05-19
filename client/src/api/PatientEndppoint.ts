@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { ApiResponse, Patient } from '.';
+import { AuthState } from '../store/authState';
 import RouteBuilder, { ApiResource } from './RouteBuilder';
 
 export const getAllPatients = async (
+  auth: AuthState,
   page?: number,
   limit?: number,
 ): Promise<ApiResponse<{ patients: Patient[] }> | null> => {
@@ -15,7 +17,7 @@ export const getAllPatients = async (
       routeBuilder.build(),
       {
         headers: {
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAwMjhmNDlmLTc3NzUtNGNmNS1hMDliLWJjYzk3MDUzYmYyZCIsImFkZHJlc3MiOiIweGYzOUZkNmU1MWFhZDg4RjZGNGNlNmFCODgyNzI3OWNmZkZiOTIyNjYiLCJyb2xlIjoiUEFUSUVOVCIsImlhdCI6MTY1MTIyMzI4MCwiZXhwIjoxNjUxMjY2NDgwLCJhdWQiOiJoZWFsdGgtY2hhaW4iLCJpc3MiOiJoZWFsdGgtY2hhaW4ifQ.638yKGv3K0p5GJXNVQjFtWbTDPTdtjSWRV9ltSmil_M',
+          Authorization: `Bearer ${auth.token}`,
         },
       },
     );
@@ -27,11 +29,19 @@ export const getAllPatients = async (
 };
 
 export const getPatientById = async (
+  auth: AuthState,
   id: string,
 ): Promise<ApiResponse<{ patient: Patient }> | null> => {
   try {
     const routeBuilder = new RouteBuilder().append(ApiResource.PATIENT).select(id);
-    const queryResponse = await axios.get(routeBuilder.build());
+    const queryResponse = await axios.get(
+      routeBuilder.build(),
+      {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      },
+    );
 
     return queryResponse.data;
   } catch (e) {

@@ -28,9 +28,7 @@ export default class MetamaskAPI {
   }
 
   async signIn(nonce: string) {
-    console.log('access');
     await this.requestMetamaskAccess();
-    console.log('sign');
     return this.signNonce(nonce);
   }
 }

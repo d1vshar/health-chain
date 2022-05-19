@@ -47,15 +47,14 @@ export const getDoctorById = async (
 const handleAuthentication = async (publicAddress: string, nonce: number) => {
   const signer = provider.getSigner();
   const signature = await signer.signMessage(nonce.toString());
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const response = await axios.post(
     `/api/verify?address=${publicAddress}&signature=${signature}`,
   );
-  console.log(response);
 };
 
 export const connectDoctor = async () => {
   const publicAddress = await provider.listAccounts();
-  console.log(publicAddress[0]);
   const res = await axios.post('http://localhost:8000/api/user/register', {
     publicAddress: publicAddress[0].toLowerCase(),
     nonce: Math.floor(Math.random() * 1000000),
@@ -63,7 +62,6 @@ export const connectDoctor = async () => {
     role: Role.DOCTOR,
   });
   if (!res) return null;
-  console.log(res.data);
   handleAuthentication(publicAddress[0], res.data.nonce);
   return res.data;
 };
@@ -75,7 +73,6 @@ export const loginDoctor = async () => {
   );
 
   if (!res) return null;
-  console.log(res.data);
   handleAuthentication(publicAddress[0], res.data.nonce);
   return res.data;
 };

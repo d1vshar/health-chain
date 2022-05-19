@@ -10,7 +10,6 @@ const opts: StrategyOptions = {
 };
 
 const jwtStrategy = new JwtStrategy(opts, (jwt, done) => {
-  console.log(jwt);
   LoginService.getAuthByPublicAddress(jwt.address)
     .then((result) => {
       if (result.data) {
