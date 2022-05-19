@@ -1,3 +1,5 @@
+import { Decimal } from '@prisma/client/runtime';
+
 export interface ApiResponse {
   status: number;
   data?: object;
@@ -58,4 +60,17 @@ export interface DoctorInterface {
   email: string | null;
   address: string | null;
   validation: ValidationState;
+}
+
+export interface VitalRecordInterface {
+  id: string;
+  patientId: string;
+  temperature: Decimal | null;
+  respRate: Decimal | null;
+  o2sat: Decimal | null;
+  sbp: number | null;
+  dpb: number | null;
+  rhythm: string | null;
+  pain: string | null;
+  addedBy: string | null;
 }
