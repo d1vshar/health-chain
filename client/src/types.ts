@@ -24,13 +24,24 @@ export interface AuditEvent {
   ip: string,
 }
 
-export interface PatientRecords {
+export interface RecordData {
   id: string,
+  patientId: string,
   temperature: number,
-  heart_rate:number,
-  resp_rate:number,
+  heartRate:number,
+  respRate:number,
   o2sat:number,
   sbp:number,
   dbp:number,
-  doctor:string,
+  doctorId:string,
+}
+
+export interface RecordPermissionData {
+  id: string,
+  recordId: string,
+  patientId: string,
+  doctorId: string,
+  read: boolean,
+  write: boolean,
+  manage: boolean,
 }

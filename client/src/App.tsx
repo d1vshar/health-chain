@@ -33,7 +33,7 @@ const routes: NavRoute[] = [
   {
     href: '/app/records',
     label: 'Records',
-    navBar: true,
+    navBar: false,
     component: PatientsPage,
   },
   {

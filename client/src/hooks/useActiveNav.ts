@@ -7,9 +7,10 @@ function useActiveNav(to: string) {
   const locationPathname = location.pathname.toLowerCase();
   const toPathname = path.pathname.toLowerCase();
   const isActive = locationPathname === toPathname
-      || (locationPathname.startsWith(toPathname)
+      || (locationPathname === toPathname.substring(0, toPathname.length - 1)
         && locationPathname.charAt(toPathname.length) === '/');
 
+  console.log('nav', path, locationPathname, isActive);
   return isActive;
 }
 

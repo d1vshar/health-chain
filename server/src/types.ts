@@ -68,6 +68,7 @@ export interface VitalRecordInterface {
   id: string;
   patientId: string;
   temperature: Decimal | null;
+  heartRate: Decimal | null;
   respRate: Decimal | null;
   o2sat: Decimal | null;
   sbp: number | null;
